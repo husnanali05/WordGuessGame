@@ -1,0 +1,9 @@
+[build]
+  base = "wordguess-web"
+  publish = "wordguess-web/dist"
+  command = "cd wordguess-web && npm install && npm run build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
