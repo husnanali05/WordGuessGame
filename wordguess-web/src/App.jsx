@@ -218,27 +218,80 @@ export default function App() {
     console.log("🚀 Using offline next level logic");
     setLoading(true);
     
-    // Create new fallback game for next level
+    // Create new fallback game for next level with progressive word lengths
     const fallbackWords = {
-      animals: ["CAT", "DOG", "BAT", "RAT", "COW", "PIG", "FOX", "BEE", "ANT", "OWL"],
-      food: ["PIE", "TEA", "HAM", "JAM", "BUN", "EGG", "OAT", "NUT", "FIG", "YAM"],
-      sports: ["RUN", "BOX", "SKI", "ROW", "JOG", "GYM", "WIN", "TIE", "BAT", "NET"],
-      technology: ["CPU", "RAM", "USB", "APP", "WEB", "NET"],
-      nature: ["SKY", "SUN", "SEA", "OAK", "DEW", "FOG", "MUD", "BAY", "DAM", "IVY"],
-      space: ["SUN", "ORB", "RAY", "SKY", "UFO", "ION", "GAS", "RED", "DIM", "HOT"],
-      music: ["RAP", "POP", "HIP", "JAZ", "DUO", "BAR", "KEY", "BOP", "HIT", "JAM"],
-      movies: ["ACT", "SET", "CUT", "DVD", "CGI", "VFX", "RUN", "HIT", "BIO", "WAR"],
-      science: ["DNA", "ION", "LAB", "RAY", "GAS", "ORE", "WAX", "OIL", "AIR", "ICE"],
-      travel: ["JET", "BUS", "CAR", "MAP", "BAG", "VAN", "SKY", "SEA", "BAY", "ZIP"]
+      animals: {
+        3: ["CAT", "DOG", "BAT", "RAT", "COW", "PIG", "FOX", "BEE", "ANT", "OWL"],
+        4: ["BEAR", "LION", "WOLF", "DEER", "FISH", "BIRD", "FROG", "CRAB", "GOAT", "DUCK"],
+        5: ["TIGER", "EAGLE", "SHARK", "WHALE", "MOUSE", "SNAKE", "HORSE", "SHEEP", "ZEBRA", "PANDA"],
+        6: ["RABBIT", "TURTLE", "SPIDER", "MONKEY", "DOLPHIN", "PENGUIN", "GIRAFFE", "ELEPHANT"]
+      },
+      food: {
+        3: ["PIE", "TEA", "HAM", "JAM", "BUN", "EGG", "OAT", "NUT", "FIG", "YAM"],
+        4: ["CAKE", "SOUP", "SALAD", "PIZZA", "BREAD", "RICE", "MEAT", "FISH", "MILK", "BEER"],
+        5: ["PASTA", "STEAK", "APPLE", "BANANA", "CHERRY", "GRAPE", "LEMON", "ONION", "CARROT", "POTATO"],
+        6: ["ORANGE", "COFFEE", "BUTTER", "CHEESE", "CHICKEN", "SANDWICH", "COOKIES", "CANDY"]
+      },
+      sports: {
+        3: ["RUN", "BOX", "SKI", "ROW", "JOG", "GYM", "WIN", "TIE", "BAT", "NET"],
+        4: ["GOLF", "SWIM", "BIKE", "JUMP", "KICK", "THROW", "CATCH", "DIVE", "RACE", "TEAM"],
+        5: ["TENNIS", "HOCKEY", "SOCCER", "BOWLING", "CYCLING", "RUNNING", "SURFING", "CLIMBING"],
+        6: ["BASKETBALL", "FOOTBALL", "BASEBALL", "VOLLEYBALL", "WRESTLING", "SWIMMING"]
+      },
+      technology: {
+        3: ["CPU", "RAM", "USB", "APP", "WEB", "NET"],
+        4: ["CODE", "DATA", "FILE", "LINK", "MAIL", "BLOG", "WIFI", "CHIP", "DISK", "MOUSE"],
+        5: ["EMAIL", "VIDEO", "AUDIO", "PHONE", "TABLET", "LAPTOP", "SERVER", "ROUTER"],
+        6: ["SCREEN", "KEYBOARD", "MONITOR", "CAMERA", "SPEAKER", "PRINTER", "SCANNER"]
+      },
+      nature: {
+        3: ["SKY", "SUN", "SEA", "OAK", "DEW", "FOG", "MUD", "BAY", "DAM", "IVY"],
+        4: ["TREE", "FLOWER", "GRASS", "ROCK", "SAND", "SNOW", "RAIN", "WIND", "FIRE", "WAVE"],
+        5: ["FOREST", "RIVER", "MOUNTAIN", "DESERT", "OCEAN", "STORM", "CLOUD", "STAR"],
+        6: ["GARDEN", "VALLEY", "CANYON", "VOLCANO", "GLACIER", "WATERFALL", "THUNDER"]
+      },
+      space: {
+        3: ["SUN", "ORB", "RAY", "SKY", "UFO", "ION", "GAS", "RED", "DIM", "HOT"],
+        4: ["MOON", "STAR", "PLANET", "ROCKET", "COMET", "METEOR", "GALAXY", "NEBULA"],
+        5: ["EARTH", "MARS", "VENUS", "JUPITER", "SATURN", "NEPTUNE", "URANUS", "PLUTO"],
+        6: ["ASTEROID", "SATELLITE", "TELESCOPE", "SPACESHIP", "ASTRONAUT", "GALAXY"]
+      },
+      music: {
+        3: ["RAP", "POP", "HIP", "JAZ", "DUO", "BAR", "KEY", "BOP", "HIT", "JAM"],
+        4: ["ROCK", "JAZZ", "BLUES", "SOUL", "FOLK", "PUNK", "METAL", "BEAT", "SONG", "BAND"],
+        5: ["PIANO", "GUITAR", "DRUMS", "BASS", "VIOLIN", "TRUMPET", "FLUTE", "SAXOPHONE"],
+        6: ["MUSICIAN", "CONCERT", "MELODY", "HARMONY", "RHYTHM", "LYRICS", "CHORUS"]
+      },
+      movies: {
+        3: ["ACT", "SET", "CUT", "DVD", "CGI", "VFX", "RUN", "HIT", "BIO", "WAR"],
+        4: ["FILM", "MOVIE", "SCENE", "ACTOR", "DIRECTOR", "SCRIPT", "CAMERA", "LIGHT"],
+        5: ["COMEDY", "ACTION", "HORROR", "DRAMA", "THRILLER", "ROMANCE", "FANTASY", "SCIENCE"],
+        6: ["CINEMA", "THEATER", "STUDIO", "PRODUCER", "SCREENPLAY", "DIRECTOR", "ACTOR"]
+      },
+      science: {
+        3: ["DNA", "ION", "LAB", "RAY", "GAS", "ORE", "WAX", "OIL", "AIR", "ICE"],
+        4: ["ATOM", "CELL", "BONE", "BLOOD", "BRAIN", "HEART", "LUNG", "LIVER", "KIDNEY"],
+        5: ["CHEMISTRY", "PHYSICS", "BIOLOGY", "GEOLOGY", "ASTRONOMY", "MEDICINE", "RESEARCH"],
+        6: ["EXPERIMENT", "HYPOTHESIS", "THEORY", "DISCOVERY", "INVENTION", "TECHNOLOGY"]
+      },
+      travel: {
+        3: ["JET", "BUS", "CAR", "MAP", "BAG", "VAN", "SKY", "SEA", "BAY", "ZIP"],
+        4: ["PLANE", "TRAIN", "BOAT", "SHIP", "BIKE", "WALK", "RIDE", "TRIP", "TOUR", "TRIP"],
+        5: ["HOTEL", "BEACH", "MOUNTAIN", "CITY", "COUNTRY", "ISLAND", "DESERT", "FOREST"],
+        6: ["VACATION", "ADVENTURE", "JOURNEY", "PASSPORT", "LUGGAGE", "DESTINATION", "EXPLORER"]
+      }
     };
     
     console.log("🚀 Available topics:", Object.keys(fallbackWords));
     console.log("🚀 Current topic:", currentTopic);
     
+    // Get words for current topic and level
     const topicWords = fallbackWords[currentTopic] || fallbackWords.animals;
-    console.log("🚀 Selected topic words:", topicWords);
+    const wordLength = Math.min(3 + newLevel - 1, 6); // Progressive: 3, 4, 5, 6 letters
+    const wordsForLength = topicWords[wordLength] || topicWords[3];
+    console.log("🚀 Selected topic words for length", wordLength, ":", wordsForLength);
     
-    const selectedWord = topicWords[Math.floor(Math.random() * topicWords.length)];
+    const selectedWord = wordsForLength[Math.floor(Math.random() * wordsForLength.length)];
     console.log("🚀 Selected word:", selectedWord);
     
     const masked = selectedWord.split('').map(() => '_').join(' ');
@@ -293,23 +346,75 @@ export default function App() {
           // Always use fallback mode in production for now
           console.log("🎯 Using fallback mode - creating offline game");
           
-          // Fallback: Create a game with predefined words
+          // Fallback: Create a game with predefined words (Level 1 = 3 letters)
           console.log("🎯 Creating fallback game...");
           const fallbackWords = {
-            animals: ["CAT", "DOG", "BAT", "RAT", "COW", "PIG", "FOX", "BEE", "ANT", "OWL"],
-            food: ["PIE", "TEA", "HAM", "JAM", "BUN", "EGG", "OAT", "NUT", "FIG", "YAM"],
-            sports: ["RUN", "BOX", "SKI", "ROW", "JOG", "GYM", "WIN", "TIE", "BAT", "NET"],
-            technology: ["CPU", "RAM", "USB", "APP", "WEB", "NET"],
-            nature: ["SKY", "SUN", "SEA", "OAK", "DEW", "FOG", "MUD", "BAY", "DAM", "IVY"],
-            space: ["SUN", "ORB", "RAY", "SKY", "UFO", "ION", "GAS", "RED", "DIM", "HOT"],
-            music: ["RAP", "POP", "HIP", "JAZ", "DUO", "BAR", "KEY", "BOP", "HIT", "JAM"],
-            movies: ["ACT", "SET", "CUT", "DVD", "CGI", "VFX", "RUN", "HIT", "BIO", "WAR"],
-            science: ["DNA", "ION", "LAB", "RAY", "GAS", "ORE", "WAX", "OIL", "AIR", "ICE"],
-            travel: ["JET", "BUS", "CAR", "MAP", "BAG", "VAN", "SKY", "SEA", "BAY", "ZIP"]
+            animals: {
+              3: ["CAT", "DOG", "BAT", "RAT", "COW", "PIG", "FOX", "BEE", "ANT", "OWL"],
+              4: ["BEAR", "LION", "WOLF", "DEER", "FISH", "BIRD", "FROG", "CRAB", "GOAT", "DUCK"],
+              5: ["TIGER", "EAGLE", "SHARK", "WHALE", "MOUSE", "SNAKE", "HORSE", "SHEEP", "ZEBRA", "PANDA"],
+              6: ["RABBIT", "TURTLE", "SPIDER", "MONKEY", "DOLPHIN", "PENGUIN", "GIRAFFE", "ELEPHANT"]
+            },
+            food: {
+              3: ["PIE", "TEA", "HAM", "JAM", "BUN", "EGG", "OAT", "NUT", "FIG", "YAM"],
+              4: ["CAKE", "SOUP", "SALAD", "PIZZA", "BREAD", "RICE", "MEAT", "FISH", "MILK", "BEER"],
+              5: ["PASTA", "STEAK", "APPLE", "BANANA", "CHERRY", "GRAPE", "LEMON", "ONION", "CARROT", "POTATO"],
+              6: ["ORANGE", "COFFEE", "BUTTER", "CHEESE", "CHICKEN", "SANDWICH", "COOKIES", "CANDY"]
+            },
+            sports: {
+              3: ["RUN", "BOX", "SKI", "ROW", "JOG", "GYM", "WIN", "TIE", "BAT", "NET"],
+              4: ["GOLF", "SWIM", "BIKE", "JUMP", "KICK", "THROW", "CATCH", "DIVE", "RACE", "TEAM"],
+              5: ["TENNIS", "HOCKEY", "SOCCER", "BOWLING", "CYCLING", "RUNNING", "SURFING", "CLIMBING"],
+              6: ["BASKETBALL", "FOOTBALL", "BASEBALL", "VOLLEYBALL", "WRESTLING", "SWIMMING"]
+            },
+            technology: {
+              3: ["CPU", "RAM", "USB", "APP", "WEB", "NET"],
+              4: ["CODE", "DATA", "FILE", "LINK", "MAIL", "BLOG", "WIFI", "CHIP", "DISK", "MOUSE"],
+              5: ["EMAIL", "VIDEO", "AUDIO", "PHONE", "TABLET", "LAPTOP", "SERVER", "ROUTER"],
+              6: ["SCREEN", "KEYBOARD", "MONITOR", "CAMERA", "SPEAKER", "PRINTER", "SCANNER"]
+            },
+            nature: {
+              3: ["SKY", "SUN", "SEA", "OAK", "DEW", "FOG", "MUD", "BAY", "DAM", "IVY"],
+              4: ["TREE", "FLOWER", "GRASS", "ROCK", "SAND", "SNOW", "RAIN", "WIND", "FIRE", "WAVE"],
+              5: ["FOREST", "RIVER", "MOUNTAIN", "DESERT", "OCEAN", "STORM", "CLOUD", "STAR"],
+              6: ["GARDEN", "VALLEY", "CANYON", "VOLCANO", "GLACIER", "WATERFALL", "THUNDER"]
+            },
+            space: {
+              3: ["SUN", "ORB", "RAY", "SKY", "UFO", "ION", "GAS", "RED", "DIM", "HOT"],
+              4: ["MOON", "STAR", "PLANET", "ROCKET", "COMET", "METEOR", "GALAXY", "NEBULA"],
+              5: ["EARTH", "MARS", "VENUS", "JUPITER", "SATURN", "NEPTUNE", "URANUS", "PLUTO"],
+              6: ["ASTEROID", "SATELLITE", "TELESCOPE", "SPACESHIP", "ASTRONAUT", "GALAXY"]
+            },
+            music: {
+              3: ["RAP", "POP", "HIP", "JAZ", "DUO", "BAR", "KEY", "BOP", "HIT", "JAM"],
+              4: ["ROCK", "JAZZ", "BLUES", "SOUL", "FOLK", "PUNK", "METAL", "BEAT", "SONG", "BAND"],
+              5: ["PIANO", "GUITAR", "DRUMS", "BASS", "VIOLIN", "TRUMPET", "FLUTE", "SAXOPHONE"],
+              6: ["MUSICIAN", "CONCERT", "MELODY", "HARMONY", "RHYTHM", "LYRICS", "CHORUS"]
+            },
+            movies: {
+              3: ["ACT", "SET", "CUT", "DVD", "CGI", "VFX", "RUN", "HIT", "BIO", "WAR"],
+              4: ["FILM", "MOVIE", "SCENE", "ACTOR", "DIRECTOR", "SCRIPT", "CAMERA", "LIGHT"],
+              5: ["COMEDY", "ACTION", "HORROR", "DRAMA", "THRILLER", "ROMANCE", "FANTASY", "SCIENCE"],
+              6: ["CINEMA", "THEATER", "STUDIO", "PRODUCER", "SCREENPLAY", "DIRECTOR", "ACTOR"]
+            },
+            science: {
+              3: ["DNA", "ION", "LAB", "RAY", "GAS", "ORE", "WAX", "OIL", "AIR", "ICE"],
+              4: ["ATOM", "CELL", "BONE", "BLOOD", "BRAIN", "HEART", "LUNG", "LIVER", "KIDNEY"],
+              5: ["CHEMISTRY", "PHYSICS", "BIOLOGY", "GEOLOGY", "ASTRONOMY", "MEDICINE", "RESEARCH"],
+              6: ["EXPERIMENT", "HYPOTHESIS", "THEORY", "DISCOVERY", "INVENTION", "TECHNOLOGY"]
+            },
+            travel: {
+              3: ["JET", "BUS", "CAR", "MAP", "BAG", "VAN", "SKY", "SEA", "BAY", "ZIP"],
+              4: ["PLANE", "TRAIN", "BOAT", "SHIP", "BIKE", "WALK", "RIDE", "TRIP", "TOUR", "TRIP"],
+              5: ["HOTEL", "BEACH", "MOUNTAIN", "CITY", "COUNTRY", "ISLAND", "DESERT", "FOREST"],
+              6: ["VACATION", "ADVENTURE", "JOURNEY", "PASSPORT", "LUGGAGE", "DESTINATION", "EXPLORER"]
+            }
           };
           
+          // Level 1 starts with 3-letter words
           const topicWords = fallbackWords[topic] || fallbackWords.animals;
-          const selectedWord = topicWords[Math.floor(Math.random() * topicWords.length)];
+          const wordsForLength = topicWords[3]; // Level 1 = 3 letters
+          const selectedWord = wordsForLength[Math.floor(Math.random() * wordsForLength.length)];
           const masked = selectedWord.split('').map(() => '_').join(' ');
           
           const fallbackGame = {
@@ -433,7 +538,7 @@ export default function App() {
           </div>
 
           {/* Game Layout - Responsive: Stack on mobile, side-by-side on desktop */}
-          <div className="flex flex-col lg:flex-row h-[calc(100vh-200px)] gap-4 px-2 sm:px-4">
+          <div className="flex flex-col lg:flex-row min-h-[600px] lg:h-[calc(100vh-200px)] gap-4 px-2 sm:px-4 pb-4">
             
             {/* Character Box - Full width on mobile, half on desktop */}
             <div className="w-full lg:flex-1">
