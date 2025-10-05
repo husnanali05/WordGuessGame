@@ -205,6 +205,7 @@ export default function App() {
     console.log("🚀 Next Level function called!");
     console.log("🚀 Current game data:", gameData);
     console.log("🚀 Current level:", currentLevel);
+    console.log("🚀 Current topic:", currentTopic);
     
     // Check if we have valid game data
     if (!gameData || !gameData.game_id) {
@@ -231,8 +232,15 @@ export default function App() {
       travel: ["JET", "BUS", "CAR", "MAP", "BAG", "VAN", "SKY", "SEA", "BAY", "ZIP"]
     };
     
+    console.log("🚀 Available topics:", Object.keys(fallbackWords));
+    console.log("🚀 Current topic:", currentTopic);
+    
     const topicWords = fallbackWords[currentTopic] || fallbackWords.animals;
+    console.log("🚀 Selected topic words:", topicWords);
+    
     const selectedWord = topicWords[Math.floor(Math.random() * topicWords.length)];
+    console.log("🚀 Selected word:", selectedWord);
+    
     const masked = selectedWord.split('').map(() => '_').join(' ');
     
     const newLevel = currentLevel + 1;
@@ -247,6 +255,8 @@ export default function App() {
       word: selectedWord
     };
     
+    console.log("🚀 Creating new game:", fallbackGame);
+    
     setGameData(fallbackGame);
     setGuessedLetters([]);
     setGameStatus("playing");
@@ -256,6 +266,7 @@ export default function App() {
     setLoading(false);
     
     console.log("🚀 Offline next level created:", newLevel);
+    console.log("🚀 New game data set:", fallbackGame);
   };
 
   const submitScore = async (gameResult) => {
