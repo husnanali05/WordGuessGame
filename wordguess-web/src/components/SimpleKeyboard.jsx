@@ -20,7 +20,7 @@ import keyO from "../assets/SimpleKeys/Classic/Dark/Single PNGs/O.png";
 import keyP from "../assets/SimpleKeys/Classic/Dark/Single PNGs/P.png";
 import keyQ from "../assets/SimpleKeys/Classic/Dark/Single PNGs/Q.png";
 import keyR from "../assets/SimpleKeys/Classic/Dark/Single PNGs/R.png";
-import keyS from "../assets/SimpleKeys/Classic/Dark/Single PNGs/S.png";
+import keySImage from "../assets/SimpleKeys/Classic/Dark/Single PNGs/S.png";
 import keyT from "../assets/SimpleKeys/Classic/Dark/Single PNGs/T.png";
 import keyU from "../assets/SimpleKeys/Classic/Dark/Single PNGs/U.png";
 import keyV from "../assets/SimpleKeys/Classic/Dark/Single PNGs/V.png";
@@ -33,7 +33,7 @@ import keyZ from "../assets/SimpleKeys/Classic/Dark/Single PNGs/Z.png";
 const keyImages = {
   A: keyA, B: keyB, C: keyC, D: keyD, E: keyE, F: keyF, G: keyG, H: keyH,
   I: keyI, J: keyJ, K: keyK, L: keyL, M: keyM, N: keyN, O: keyO, P: keyP,
-  Q: keyQ, R: keyR, S: keyS, T: keyT, U: keyU, V: keyV, W: keyW, X: keyX,
+  Q: keyQ, R: keyR, S: keySImage, T: keyT, U: keyU, V: keyV, W: keyW, X: keyX,
   Y: keyY, Z: keyZ
 };
 
