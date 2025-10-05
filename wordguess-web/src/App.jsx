@@ -216,7 +216,10 @@ export default function App() {
     
     // Always use offline logic for next level
     console.log("🚀 Using offline next level logic");
-    setLoading(true);
+      setLoading(true);
+    
+    // Add a short delay to show loading screen briefly
+    setTimeout(() => {
     
     // Create new fallback game for next level with progressive word lengths
     const fallbackWords = {
@@ -296,7 +299,7 @@ export default function App() {
     
     const masked = selectedWord.split('').map(() => '_').join(' ');
     
-    const newLevel = currentLevel + 1;
+      const newLevel = currentLevel + 1;
     const fallbackGame = {
       game_id: "fallback_" + Date.now(),
       masked: masked,
@@ -310,26 +313,27 @@ export default function App() {
     
     console.log("🚀 Creating new game:", fallbackGame);
     
-    setGameData(fallbackGame);
-    setGuessedLetters([]);
-    setGameStatus("playing");
-    setHintsRemaining(3);
-    setCurrentLevel(newLevel);
-    setCurrentScreen("game");
-    setLoading(false);
-    
-    console.log("🚀 Offline next level created:", newLevel);
-    console.log("🚀 New game data set:", fallbackGame);
+      setGameData(fallbackGame);
+      setGuessedLetters([]);
+      setGameStatus("playing");
+      setHintsRemaining(3);
+      setCurrentLevel(newLevel);
+      setCurrentScreen("game");
+      setLoading(false);
+      
+      console.log("🚀 Offline next level created:", newLevel);
+      console.log("🚀 New game data set:", fallbackGame);
+    }, 800); // Reduced from longer delay to just 800ms
   };
 
   const submitScore = async (gameResult) => {
     // Offline mode - no score submission
     console.log("📊 Score tracking disabled in offline mode");
     console.log("📊 Game result:", {
-      player: playerName,
-      won: gameResult.status === "won",
-      word: gameResult.answer || "",
-      level: currentLevel
+        player: playerName,
+        won: gameResult.status === "won",
+        word: gameResult.answer || "",
+        level: currentLevel
     });
   };
 
@@ -417,24 +421,24 @@ export default function App() {
           const selectedWord = wordsForLength[Math.floor(Math.random() * wordsForLength.length)];
           const masked = selectedWord.split('').map(() => '_').join(' ');
           
-          const fallbackGame = {
+            const fallbackGame = {
             game_id: "fallback_" + Date.now(),
             masked: masked,
-            lives: 6,
-            status: "playing",
-            guessed: [],
+              lives: 6,
+              status: "playing",
+              guessed: [],
             word_length: selectedWord.length,
             answer: selectedWord,
             word: selectedWord
-          };
-          setGameData(fallbackGame);
-          setGuessedLetters([]);
-          setGameStatus("playing");
+            };
+            setGameData(fallbackGame);
+            setGuessedLetters([]);
+            setGameStatus("playing");
           setHintsRemaining(3); // Reset hints for new game
-          setCurrentScreen("game");
-          console.log("🎯 Fallback game created");
-          setLoading(false);
-          console.log("🎯 Loading set to false");
+            setCurrentScreen("game");
+            console.log("🎯 Fallback game created");
+            setLoading(false);
+            console.log("🎯 Loading set to false");
         }}
         playerName={playerName}
       />
@@ -482,7 +486,7 @@ export default function App() {
       );
     }
 
-  return (
+    return (
     <div className="min-h-screen text-white relative overflow-x-hidden">
         {/* Animated Space Background with Blue Version assets */}
         <AnimatedSpaceBackground isTransitioning={false} />
@@ -506,7 +510,7 @@ export default function App() {
                 <div className="text-right">
                   <div className="text-xs text-slate-400 mb-1" style={{ fontFamily: 'Silkscreen, monospace' }}>
                     PLAYER
-                  </div>
+          </div>
                   <div 
                     className="text-sm sm:text-base font-bold text-white"
                     style={{ 
@@ -519,7 +523,7 @@ export default function App() {
                 </div>
               </div>
             </div>
-          </div>
+            </div>
 
           {/* Trophy Icon - Responsive Fixed Position */}
           <div className="fixed top-2 sm:top-4 right-4 sm:right-8 lg:right-32 z-50">
@@ -609,23 +613,23 @@ export default function App() {
                     </div>
                     <div className="text-sm sm:text-base text-slate-400 mb-2 sm:mb-3">
                       {gameData.word?.length || gameData.word_length || 3} letters
-                    </div>
+            </div>
 
                     {/* Guessed Letters - Responsive */}
                     {guessedLetters.length > 0 && (
                       <div className="text-sm sm:text-base text-slate-300">
                         Guessed: <span className="font-mono text-blue-300 break-all">{guessedLetters.join(', ')}</span>
-                      </div>
-                    )}
-                  </div>
+                </div>
+              )}
+            </div>
 
                   {/* Game Status - Responsive */}
                   {gameStatus === "won" && (
                     <div className="text-center mb-4 sm:mb-6">
                       <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-400 mb-2 sm:mb-3">🎉 YOU WON! 🎉</div>
                       <div className="text-sm sm:text-base text-slate-300 mb-2 sm:mb-3">The word was: <span className="font-bold text-yellow-300">{gameData.answer || gameData.word}</span></div>
-                      <div
-                        onClick={nextLevel}
+                          <div
+                            onClick={nextLevel}
                         className="px-4 sm:px-6 py-2 sm:py-3 bg-green-600 rounded-lg hover:bg-green-700 font-bold text-sm sm:text-base cursor-pointer transition-colors"
                         style={{
                           fontFamily: 'Silkscreen, monospace',
@@ -641,8 +645,8 @@ export default function App() {
                     <div className="text-center mb-4 sm:mb-6">
                       <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-400 mb-2 sm:mb-3">💀 GAME OVER 💀</div>
                       <div className="text-sm sm:text-base text-slate-300 mb-2 sm:mb-3">The word was: <span className="font-bold text-yellow-300">{gameData.answer || gameData.word}</span></div>
-                      <div
-                        onClick={() => setCurrentScreen("topic")}
+                          <div
+                            onClick={() => setCurrentScreen("topic")}
                         className="px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 rounded-lg hover:bg-blue-700 font-bold text-sm sm:text-base cursor-pointer transition-colors"
                         style={{
                           fontFamily: 'Silkscreen, monospace',
@@ -659,11 +663,11 @@ export default function App() {
                 {gameStatus === "playing" && (
                   <div className="flex-1 min-h-0">
                     <div className="h-full overflow-auto">
-                      <SimpleKeyboard
-                        onKeyPress={handleGuess}
-                        guessedLetters={guessedLetters}
-                        gameStatus={gameStatus}
-                      />
+                    <SimpleKeyboard 
+                      onKeyPress={handleGuess}
+                      guessedLetters={guessedLetters}
+                      gameStatus={gameStatus}
+                    />
                     </div>
                   </div>
                 )}
@@ -692,13 +696,13 @@ export default function App() {
                     <div className="flex justify-between items-center">
                       <h2 className="text-lg sm:text-xl lg:text-2xl font-bold" style={{ fontFamily: 'Silkscreen, monospace' }}>
                         🏆 LEADERBOARD & HISTORY
-                      </h2>
-                      <button
+                  </h2>
+                  <button
                         onClick={() => setShowLeaderboard(false)}
                         className="text-slate-400 hover:text-white text-xl sm:text-2xl p-1"
-                      >
+                  >
                         ×
-                      </button>
+                  </button>
                     </div>
                   </div>
                   <div className="p-3 sm:p-4 flex-1 overflow-y-auto leaderboard-scroll">

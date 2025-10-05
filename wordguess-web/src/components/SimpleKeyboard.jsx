@@ -105,18 +105,18 @@ export default function SimpleKeyboard({
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
       imageRendering: "pixelated",
-      width: "40px",
-      height: "40px",
-      border: "2px solid #374151",
-      borderRadius: "6px",
+      width: "28px", // Reduced from 40px
+      height: "28px", // Reduced from 40px
+      border: "1px solid #374151", // Reduced border
+      borderRadius: "4px", // Reduced border radius
       cursor: gameStatus !== "playing" || isKeyGuessed(letter) ? "not-allowed" : "pointer",
       opacity: isKeyGuessed(letter) ? 0.4 : 1,
       transform: isKeyPressed(letter) ? "scale(0.95)" : "scale(1)",
       transition: "all 0.1s ease",
       filter: isKeyGuessed(letter) ? "grayscale(100%)" : "none",
       boxShadow: isKeyPressed(letter) 
-        ? "0 4px 8px rgba(0,0,0,0.3), inset 0 2px 4px rgba(0,0,0,0.2)" 
-        : "0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.1)",
+        ? "0 2px 4px rgba(0,0,0,0.3), inset 0 1px 2px rgba(0,0,0,0.2)" 
+        : "0 1px 2px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.1)",
       backgroundColor: isKeyGuessed(letter) ? "#1f2937" : "#374151"
     };
 
@@ -130,18 +130,18 @@ export default function SimpleKeyboard({
   ];
 
   return (
-    <div className="flex flex-col items-center gap-2 sm:gap-4 p-3 sm:p-6 bg-slate-800/60 border-2 border-slate-700 rounded-xl shadow-[6px_6px_0_#000]">
-      <div className="text-center mb-1 sm:mb-2">
-        <h3 className="text-sm sm:text-lg font-bold text-white mb-1" style={{ fontFamily: 'Silkscreen, monospace' }}>
+    <div className="flex flex-col items-center gap-1 sm:gap-2 p-2 sm:p-4 bg-slate-800/60 border-2 border-slate-700 rounded-xl shadow-[4px_4px_0_#000]">
+      <div className="text-center mb-1">
+        <h3 className="text-xs sm:text-sm font-bold text-white mb-1" style={{ fontFamily: 'Silkscreen, monospace' }}>
           KEYBOARD
         </h3>
-        <p className="text-xs sm:text-sm text-slate-300">
+        <p className="text-xs text-slate-300">
           Click keys or use your physical keyboard
         </p>
       </div>
       
       {keyboardLayout.map((row, rowIndex) => (
-        <div key={rowIndex} className="flex gap-1 sm:gap-2 lg:gap-3 flex-wrap justify-center">
+        <div key={rowIndex} className="flex gap-0.5 sm:gap-1 lg:gap-2 flex-wrap justify-center">
           {row.map((letter) => (
             <button
               key={letter}
@@ -158,7 +158,7 @@ export default function SimpleKeyboard({
         </div>
       ))}
       
-      <div className="mt-1 sm:mt-2 text-xs text-slate-400 text-center px-2">
+      <div className="mt-1 text-xs text-slate-400 text-center px-2">
         Press any letter on your keyboard or click the keys above
       </div>
     </div>
