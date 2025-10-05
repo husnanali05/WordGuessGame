@@ -309,18 +309,36 @@ export default function App() {
                 console.log("🎯 Screen set to game");
           } catch (error) {
             console.error("🎯 Error starting game:", error);
-            alert(`Failed to start game: ${error.message}`);
+            console.log("🎯 Using fallback mode - backend not available");
             
-            // Fallback: Create a test game if API fails
+            // Fallback: Create a game with predefined words if API fails
             console.log("🎯 Creating fallback game...");
+            const fallbackWords = {
+              animals: ["CAT", "DOG", "BAT", "RAT", "COW", "PIG", "FOX", "BEE", "ANT", "OWL"],
+              food: ["PIE", "TEA", "HAM", "JAM", "BUN", "EGG", "OAT", "NUT", "FIG", "YAM"],
+              sports: ["RUN", "BOX", "SKI", "ROW", "JOG", "GYM", "WIN", "TIE", "BAT", "NET"],
+              technology: ["CPU", "RAM", "USB", "APP", "WEB", "NET"],
+              nature: ["SKY", "SUN", "SEA", "OAK", "DEW", "FOG", "MUD", "BAY", "DAM", "IVY"],
+              space: ["SUN", "ORB", "RAY", "SKY", "UFO", "ION", "GAS", "RED", "DIM", "HOT"],
+              music: ["RAP", "POP", "HIP", "JAZ", "DUO", "BAR", "KEY", "BOP", "HIT", "JAM"],
+              movies: ["ACT", "SET", "CUT", "DVD", "CGI", "VFX", "RUN", "HIT", "BIO", "WAR"],
+              science: ["DNA", "ION", "LAB", "RAY", "GAS", "ORE", "WAX", "OIL", "AIR", "ICE"],
+              travel: ["JET", "BUS", "CAR", "MAP", "BAG", "VAN", "SKY", "SEA", "BAY", "ZIP"]
+            };
+            
+            const topicWords = fallbackWords[topic] || fallbackWords.animals;
+            const selectedWord = topicWords[Math.floor(Math.random() * topicWords.length)];
+            const masked = selectedWord.split('').map(() => '_').join(' ');
+            
             const fallbackGame = {
-              game_id: "test123",
-              masked: "_ _ _",
+              game_id: "fallback_" + Date.now(),
+              masked: masked,
               lives: 6,
               status: "playing",
               guessed: [],
-              word_length: 3,
-              answer: "CAT"
+              word_length: selectedWord.length,
+              answer: selectedWord,
+              word: selectedWord
             };
             setGameData(fallbackGame);
             setGuessedLetters([]);
