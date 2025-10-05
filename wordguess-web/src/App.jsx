@@ -482,17 +482,17 @@ export default function App() {
       );
     }
 
-    return (
-      <div className="min-h-screen text-white relative">
+  return (
+    <div className="min-h-screen text-white relative overflow-x-hidden">
         {/* Animated Space Background with Blue Version assets */}
         <AnimatedSpaceBackground isTransitioning={false} />
         
-        <div className="relative z-10 w-full">
+        <div className="relative z-10 w-full min-h-screen">
           {/* Header with Title and Player Name - Responsive */}
-          <div className="flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-8 px-4 sm:px-6 pt-4 sm:pt-6 gap-4">
+          <div className="flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-6 px-2 sm:px-4 pt-2 sm:pt-4 gap-2">
             <div className="flex-1"></div>
             <h1 
-              className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold pixel-title text-center" 
+              className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold pixel-title text-center" 
               style={{ 
                 fontFamily: 'Silkscreen, monospace',
                 textShadow: '2px 2px 0px #000, 4px 4px 0px #333',
@@ -502,13 +502,13 @@ export default function App() {
               WORD GUESS GAME
             </h1>
             <div className="flex-1 flex justify-end">
-              <div className="flex items-center gap-2 sm:gap-4">
+              <div className="flex items-center gap-1 sm:gap-2">
                 <div className="text-right">
-                  <div className="text-xs sm:text-sm text-slate-400 mb-1" style={{ fontFamily: 'Silkscreen, monospace' }}>
+                  <div className="text-xs text-slate-400 mb-1" style={{ fontFamily: 'Silkscreen, monospace' }}>
                     PLAYER
                   </div>
                   <div 
-                    className="text-lg sm:text-xl font-bold text-white"
+                    className="text-sm sm:text-base font-bold text-white"
                     style={{ 
                       fontFamily: 'Silkscreen, monospace',
                       textShadow: '1px 1px 0px #000'
