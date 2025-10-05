@@ -270,3 +270,55 @@
     transform: translateY(-5px);
   }
 }
+
+/* ---- Responsive Design Utilities ---- */
+@media (max-width: 640px) {
+  .pixel-canvas {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .trophy-button {
+    transform: scale(0.9);
+  }
+  
+  .trophy-button:hover {
+    transform: scale(1.0);
+  }
+}
+
+@media (max-width: 480px) {
+  .pixel-canvas {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .leaderboard-popup {
+    margin: 1rem;
+    max-height: calc(100vh - 2rem);
+  }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  .trophy-button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .trophy-button:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-height: 600px) and (orientation: landscape) {
+  .leaderboard-popup {
+    max-height: 90vh;
+  }
+  
+  .pixel-canvas {
+    width: 100px;
+    height: 100px;
+  }
+}

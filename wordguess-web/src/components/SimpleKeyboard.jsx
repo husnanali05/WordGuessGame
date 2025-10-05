@@ -105,10 +105,10 @@ export default function SimpleKeyboard({
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
       imageRendering: "pixelated",
-      width: "60px",
-      height: "60px",
-      border: "3px solid #374151",
-      borderRadius: "8px",
+      width: "40px",
+      height: "40px",
+      border: "2px solid #374151",
+      borderRadius: "6px",
       cursor: gameStatus !== "playing" || isKeyGuessed(letter) ? "not-allowed" : "pointer",
       opacity: isKeyGuessed(letter) ? 0.4 : 1,
       transform: isKeyPressed(letter) ? "scale(0.95)" : "scale(1)",
@@ -130,18 +130,18 @@ export default function SimpleKeyboard({
   ];
 
   return (
-    <div className="flex flex-col items-center gap-4 p-6 bg-slate-800/60 border-2 border-slate-700 rounded-xl shadow-[6px_6px_0_#000]">
-      <div className="text-center mb-2">
-        <h3 className="text-lg font-bold text-white mb-1" style={{ fontFamily: 'Silkscreen, monospace' }}>
+    <div className="flex flex-col items-center gap-2 sm:gap-4 p-3 sm:p-6 bg-slate-800/60 border-2 border-slate-700 rounded-xl shadow-[6px_6px_0_#000]">
+      <div className="text-center mb-1 sm:mb-2">
+        <h3 className="text-sm sm:text-lg font-bold text-white mb-1" style={{ fontFamily: 'Silkscreen, monospace' }}>
           KEYBOARD
         </h3>
-        <p className="text-sm text-slate-300">
+        <p className="text-xs sm:text-sm text-slate-300">
           Click keys or use your physical keyboard
         </p>
       </div>
       
       {keyboardLayout.map((row, rowIndex) => (
-        <div key={rowIndex} className="flex gap-3">
+        <div key={rowIndex} className="flex gap-1 sm:gap-2 lg:gap-3 flex-wrap justify-center">
           {row.map((letter) => (
             <button
               key={letter}
@@ -151,14 +151,14 @@ export default function SimpleKeyboard({
               onMouseLeave={() => handleKeyUp(letter)}
               disabled={gameStatus !== "playing" || isKeyGuessed(letter)}
               style={getKeyStyle(letter)}
-              className="select-none hover:scale-105 active:scale-95"
+              className="select-none hover:scale-105 active:scale-95 touch-manipulation"
               aria-label={`Guess ${letter}`}
             />
           ))}
         </div>
       ))}
       
-      <div className="mt-2 text-xs text-slate-400 text-center">
+      <div className="mt-1 sm:mt-2 text-xs text-slate-400 text-center px-2">
         Press any letter on your keyboard or click the keys above
       </div>
     </div>

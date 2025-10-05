@@ -383,11 +383,11 @@ export default function App() {
         <AnimatedSpaceBackground isTransitioning={false} />
         
         <div className="relative z-10 w-full">
-          {/* Header with Title and Player Name */}
-          <div className="flex justify-between items-center mb-8 px-6 pt-6">
+          {/* Header with Title and Player Name - Responsive */}
+          <div className="flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-8 px-4 sm:px-6 pt-4 sm:pt-6 gap-4">
             <div className="flex-1"></div>
             <h1 
-              className="text-5xl font-bold pixel-title" 
+              className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold pixel-title text-center" 
               style={{ 
                 fontFamily: 'Silkscreen, monospace',
                 textShadow: '2px 2px 0px #000, 4px 4px 0px #333',
@@ -397,13 +397,13 @@ export default function App() {
               WORD GUESS GAME
             </h1>
             <div className="flex-1 flex justify-end">
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 sm:gap-4">
                 <div className="text-right">
-                  <div className="text-sm text-slate-400 mb-1" style={{ fontFamily: 'Silkscreen, monospace' }}>
+                  <div className="text-xs sm:text-sm text-slate-400 mb-1" style={{ fontFamily: 'Silkscreen, monospace' }}>
                     PLAYER
-          </div>
+                  </div>
                   <div 
-                    className="text-xl font-bold text-white"
+                    className="text-lg sm:text-xl font-bold text-white"
                     style={{ 
                       fontFamily: 'Silkscreen, monospace',
                       textShadow: '1px 1px 0px #000'
@@ -414,61 +414,63 @@ export default function App() {
                 </div>
               </div>
             </div>
-            </div>
+          </div>
 
-          {/* Trophy Icon - Fixed Position */}
-          <div className="fixed top-4 right-32 z-50">
+          {/* Trophy Icon - Responsive Fixed Position */}
+          <div className="fixed top-2 sm:top-4 right-4 sm:right-8 lg:right-32 z-50">
             <button
               onClick={() => setShowLeaderboard(!showLeaderboard)}
-              className="trophy-button bg-slate-800/80 border border-slate-700 rounded-full p-3 shadow-[4px_4px_0_#000] hover:bg-slate-700/80"
+              className="trophy-button bg-slate-800/80 border border-slate-700 rounded-full p-2 sm:p-3 shadow-[4px_4px_0_#000] hover:bg-slate-700/80 transition-all"
               style={{ fontFamily: 'Silkscreen, monospace' }}
             >
               <img
                 src={trophyImg}
                 alt="🏆"
-                className="w-6 h-6"
+                className="w-5 h-5 sm:w-6 sm:h-6"
                 style={{ imageRendering: 'pixelated' }}
               />
             </button>
           </div>
 
-          {/* Game Layout - Character on Left, Keyboard on Right */}
-          <div className="flex h-[calc(100vh-200px)] gap-4 px-4">
+          {/* Game Layout - Responsive: Stack on mobile, side-by-side on desktop */}
+          <div className="flex flex-col lg:flex-row h-[calc(100vh-200px)] gap-4 px-2 sm:px-4">
             
-            {/* Character Box - Left Side */}
-            <div className="flex-1">
-              <div className="bg-slate-800/60 border border-slate-700 rounded-xl p-6 shadow-[6px_6px_0_#000] h-full">
+            {/* Character Box - Full width on mobile, half on desktop */}
+            <div className="w-full lg:flex-1">
+              <div className="bg-slate-800/60 border border-slate-700 rounded-xl p-3 sm:p-6 shadow-[6px_6px_0_#000] h-full">
                 <div className="h-full flex flex-col">
-                  <h3 className="text-xl font-bold mb-6 text-center" style={{ fontFamily: 'Silkscreen, monospace' }}>
+                  <h3 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-center" style={{ fontFamily: 'Silkscreen, monospace' }}>
                     ASTRONAUT
                   </h3>
-                  <div className="flex-1 relative">
-                    <AstronautIdle height={500} />
+                  <div className="flex-1 relative min-h-[200px] sm:min-h-[300px] lg:min-h-[400px]">
+                    <div className="w-full h-full flex items-center justify-center">
+                      <AstronautIdle height={300} />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Keyboard Box - Right Side */}
-            <div className="flex-1">
-              <div className="bg-slate-800/60 border border-slate-700 rounded-xl p-6 shadow-[6px_6px_0_#000] h-full flex flex-col">
+            {/* Keyboard Box - Full width on mobile, half on desktop */}
+            <div className="w-full lg:flex-1">
+              <div className="bg-slate-800/60 border border-slate-700 rounded-xl p-3 sm:p-6 shadow-[6px_6px_0_#000] h-full flex flex-col">
                 
-                {/* Game Info */}
-                <div className="mb-6">
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold">Level {currentLevel}</h2>
-                    <div className="flex items-center gap-4">
-                      <div className="text-base text-slate-300">
+                {/* Game Info - Responsive Layout */}
+                <div className="mb-4 sm:mb-6">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-4">
+                    <h2 className="text-xl sm:text-2xl font-bold">Level {currentLevel}</h2>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                      <div className="text-sm sm:text-base text-slate-300">
                         Topic: {currentTopic} | Word Length: {gameData.word?.length || gameData.word_length || 3}
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <div className="flex items-center gap-1">
                           {Array.from({ length: gameData.lives || 6 }, (_, i) => (
                             <img
                               key={i}
                               src={heartImg}
                               alt="❤️"
-                              className="w-6 h-6"
+                              className="w-5 h-5 sm:w-6 sm:h-6"
                               style={{ imageRendering: 'pixelated' }}
                             />
                           ))}
@@ -479,14 +481,14 @@ export default function App() {
                               key={i}
                               src={hintImg}
                               alt="💡"
-                              className="w-6 h-6"
+                              className="w-5 h-5 sm:w-6 sm:h-6"
                               style={{ imageRendering: 'pixelated' }}
                             />
                           ))}
                         </div>
                         <button
                           onClick={handleHint}
-                          className="ml-2 px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-bold transition-colors"
+                          className="px-2 sm:px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg text-xs sm:text-sm font-bold transition-colors"
                           style={{ fontFamily: 'Silkscreen, monospace' }}
                         >
                           HINT ({hintsRemaining})
@@ -495,37 +497,33 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Word Display */}
-                  <div className="text-center mb-6">
-                    <div className="text-4xl font-mono tracking-wider text-yellow-300 mb-3">
+                  {/* Word Display - Responsive */}
+                  <div className="text-center mb-4 sm:mb-6">
+                    <div className="text-2xl sm:text-3xl lg:text-4xl font-mono tracking-wider text-yellow-300 mb-2 sm:mb-3 break-all">
                       {gameData.masked || "_______"}
                     </div>
-                    <div className="text-base text-slate-400 mb-3">
+                    <div className="text-sm sm:text-base text-slate-400 mb-2 sm:mb-3">
                       {gameData.word?.length || gameData.word_length || 3} letters
-            </div>
+                    </div>
 
-                    {/* Guessed Letters */}
+                    {/* Guessed Letters - Responsive */}
                     {guessedLetters.length > 0 && (
-                      <div className="text-base text-slate-300">
-                        Guessed: <span className="font-mono text-blue-300">{guessedLetters.join(', ')}</span>
-                </div>
-              )}
-            </div>
+                      <div className="text-sm sm:text-base text-slate-300">
+                        Guessed: <span className="font-mono text-blue-300 break-all">{guessedLetters.join(', ')}</span>
+                      </div>
+                    )}
+                  </div>
 
-                  {/* Game Status */}
+                  {/* Game Status - Responsive */}
                   {gameStatus === "won" && (
-                    <div className="text-center mb-6">
-                      <div className="text-3xl font-bold text-green-400 mb-3">🎉 YOU WON! 🎉</div>
-                      <div className="text-base text-slate-300 mb-3">The word was: <span className="font-bold text-yellow-300">{gameData.answer || gameData.word}</span></div>
-                          <div
-                            onClick={nextLevel}
-                        className="px-6 py-3 bg-green-600 rounded-lg hover:bg-green-700 font-bold text-base"
+                    <div className="text-center mb-4 sm:mb-6">
+                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-400 mb-2 sm:mb-3">🎉 YOU WON! 🎉</div>
+                      <div className="text-sm sm:text-base text-slate-300 mb-2 sm:mb-3">The word was: <span className="font-bold text-yellow-300">{gameData.answer || gameData.word}</span></div>
+                      <div
+                        onClick={nextLevel}
+                        className="px-4 sm:px-6 py-2 sm:py-3 bg-green-600 rounded-lg hover:bg-green-700 font-bold text-sm sm:text-base cursor-pointer transition-colors"
                         style={{
-                          cursor: 'pointer',
-                          zIndex: 9999,
-                          position: 'relative',
-                          pointerEvents: 'auto',
-                          display: 'inline-block',
+                          fontFamily: 'Silkscreen, monospace',
                           userSelect: 'none'
                         }}
                       >
@@ -535,18 +533,14 @@ export default function App() {
                   )}
 
                   {gameStatus === "lost" && (
-                    <div className="text-center mb-6">
-                      <div className="text-3xl font-bold text-red-400 mb-3">💀 GAME OVER 💀</div>
-                      <div className="text-base text-slate-300 mb-3">The word was: <span className="font-bold text-yellow-300">{gameData.answer || gameData.word}</span></div>
-                          <div
-                            onClick={() => setCurrentScreen("topic")}
-                        className="px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 font-bold text-base"
+                    <div className="text-center mb-4 sm:mb-6">
+                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-400 mb-2 sm:mb-3">💀 GAME OVER 💀</div>
+                      <div className="text-sm sm:text-base text-slate-300 mb-2 sm:mb-3">The word was: <span className="font-bold text-yellow-300">{gameData.answer || gameData.word}</span></div>
+                      <div
+                        onClick={() => setCurrentScreen("topic")}
+                        className="px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 rounded-lg hover:bg-blue-700 font-bold text-sm sm:text-base cursor-pointer transition-colors"
                         style={{
-                          cursor: 'pointer',
-                          zIndex: 9999,
-                          position: 'relative',
-                          pointerEvents: 'auto',
-                          display: 'inline-block',
+                          fontFamily: 'Silkscreen, monospace',
                           userSelect: 'none'
                         }}
                       >
@@ -556,22 +550,25 @@ export default function App() {
                   )}
                 </div>
 
-                {/* Keyboard */}
+                {/* Keyboard - Responsive */}
                 {gameStatus === "playing" && (
-                  <div className="flex-1">
-                    <SimpleKeyboard 
-                      onKeyPress={handleGuess}
-                      guessedLetters={guessedLetters}
-                      gameStatus={gameStatus}
-                    />
+                  <div className="flex-1 min-h-0">
+                    <div className="h-full overflow-auto">
+                      <SimpleKeyboard
+                        onKeyPress={handleGuess}
+                        guessedLetters={guessedLetters}
+                        gameStatus={gameStatus}
+                      />
+                    </div>
                   </div>
                 )}
 
-                {/* Back Button */}
-                <div className="mt-6 text-center">
+                {/* Back Button - Responsive */}
+                <div className="mt-4 sm:mt-6 text-center">
                   <button
                     onClick={() => setCurrentScreen("start")}
-                    className="px-6 py-3 bg-red-600 rounded-lg hover:bg-red-700 text-base font-bold"
+                    className="px-4 sm:px-6 py-2 sm:py-3 bg-red-600 rounded-lg hover:bg-red-700 text-sm sm:text-base font-bold transition-colors"
+                    style={{ fontFamily: 'Silkscreen, monospace' }}
                   >
                     Back to Start
                   </button>
@@ -582,25 +579,25 @@ export default function App() {
 
           <>
 
-            {/* Leaderboard Popup */}
+            {/* Leaderboard Popup - Responsive */}
             {showLeaderboard && (
-              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40">
-                <div className="leaderboard-popup bg-slate-800 border border-slate-700 rounded-xl shadow-[8px_8px_0_#000] max-w-4xl w-full mx-4 max-h-[80vh] flex flex-col">
-                  <div className="p-4 border-b border-slate-700">
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-2 sm:p-4">
+                <div className="leaderboard-popup bg-slate-800 border border-slate-700 rounded-xl shadow-[8px_8px_0_#000] max-w-4xl w-full max-h-[90vh] sm:max-h-[80vh] flex flex-col">
+                  <div className="p-3 sm:p-4 border-b border-slate-700">
                     <div className="flex justify-between items-center">
-                      <h2 className="text-2xl font-bold" style={{ fontFamily: 'Silkscreen, monospace' }}>
+                      <h2 className="text-lg sm:text-xl lg:text-2xl font-bold" style={{ fontFamily: 'Silkscreen, monospace' }}>
                         🏆 LEADERBOARD & HISTORY
-                  </h2>
-                  <button
+                      </h2>
+                      <button
                         onClick={() => setShowLeaderboard(false)}
-                        className="text-slate-400 hover:text-white text-2xl"
-                  >
+                        className="text-slate-400 hover:text-white text-xl sm:text-2xl p-1"
+                      >
                         ×
-                  </button>
+                      </button>
                     </div>
                   </div>
-                  <div className="p-4 flex-1 overflow-y-auto leaderboard-scroll">
-                    <div className="space-y-6">
+                  <div className="p-3 sm:p-4 flex-1 overflow-y-auto leaderboard-scroll">
+                    <div className="space-y-4 sm:space-y-6">
                       <Leaderboard />
                       <PlayerHistory playerName={playerName} />
                     </div>
