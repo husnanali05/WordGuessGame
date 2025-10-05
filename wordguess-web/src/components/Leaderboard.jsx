@@ -15,12 +15,15 @@ export default function Leaderboard() {
         setLoading(true);
         setError("");
         const response = await fetch(`${API}/api/leaderboard?limit=20`);
-        if (!response.ok) throw new Error('Failed to fetch leaderboard');
+        if (!response.ok) {
+          throw new Error(`Backend unavailable (${response.status})`);
+        }
         const data = await response.json();
         setScores(data);
       } catch (err) {
         console.error('Leaderboard fetch error:', err);
-        setError(`Failed to load leaderboard: ${err.message}`);
+        setError(`Backend server is currently unavailable. Please try again later.`);
+        setScores([]);
       } finally {
         setLoading(false);
       }
@@ -61,8 +64,8 @@ export default function Leaderboard() {
       {scores.length === 0 ? (
         <div className="text-center py-8 text-slate-400">
           <div className="mb-2">🏆</div>
-          <div>No leaderboard data available</div>
-          <div className="text-xs text-slate-500 mt-2">Be the first to play and set a high score!</div>
+          <div>Leaderboard temporarily unavailable</div>
+          <div className="text-xs text-slate-500 mt-2">Backend server is being updated. Check back soon!</div>
         </div>
       ) : (
         <div className="overflow-x-auto">

@@ -18,12 +18,15 @@ export default function PlayerHistory({ playerName }) {
         setLoading(true);
         setError("");
         const response = await fetch(`${API}/api/player/${encodeURIComponent(playerName)}/scores?limit=50`);
-        if (!response.ok) throw new Error('Failed to fetch player scores');
+        if (!response.ok) {
+          throw new Error(`Backend unavailable (${response.status})`);
+        }
         const data = await response.json();
         setScores(data);
       } catch (err) {
         console.error('Player scores fetch error:', err);
-        setError('Failed to load your scores');
+        setError('Backend server is currently unavailable. Please try again later.');
+        setScores([]);
       } finally {
         setLoading(false);
       }
@@ -83,8 +86,8 @@ export default function PlayerHistory({ playerName }) {
       {scores.length === 0 ? (
         <div className="text-center py-8 text-slate-400">
           <div className="mb-2">📊</div>
-          <div>No game history yet</div>
-          <div className="text-xs text-slate-500 mt-2">Play some games to see your history!</div>
+          <div>Game history temporarily unavailable</div>
+          <div className="text-xs text-slate-500 mt-2">Backend server is being updated. Check back soon!</div>
         </div>
       ) : (
         <div className="space-y-2 max-h-64 overflow-y-auto">
