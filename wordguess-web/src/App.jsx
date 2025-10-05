@@ -289,6 +289,7 @@ export default function App() {
     console.log("🚀 Current topic:", currentTopic);
     
     // Get words for current topic and level
+    const newLevel = currentLevel + 1;
     const topicWords = fallbackWords[currentTopic] || fallbackWords.animals;
     const wordLength = Math.min(3 + newLevel - 1, 6); // Progressive: 3, 4, 5, 6 letters
     const wordsForLength = topicWords[wordLength] || topicWords[3];
@@ -298,8 +299,6 @@ export default function App() {
     console.log("🚀 Selected word:", selectedWord);
     
     const masked = selectedWord.split('').map(() => '_').join(' ');
-    
-      const newLevel = currentLevel + 1;
     const fallbackGame = {
       game_id: "fallback_" + Date.now(),
       masked: masked,
