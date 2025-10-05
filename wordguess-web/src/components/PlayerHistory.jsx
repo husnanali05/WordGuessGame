@@ -7,30 +7,11 @@ export default function PlayerHistory({ playerName }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Fetch player's scores when playerName changes
+  // Offline mode - no player history data
   useEffect(() => {
-    if (!playerName || playerName === "guest") {
-      setScores([]);
-      return;
-    }
-
-    const fetchPlayerScores = async () => {
-      try {
-        setLoading(true);
-        setError("");
-        const response = await fetch(`${API}/api/player/${encodeURIComponent(playerName)}/scores?limit=50`);
-        if (!response.ok) throw new Error('Failed to fetch player scores');
-        const data = await response.json();
-        setScores(data);
-      } catch (err) {
-        console.error('Player scores fetch error:', err);
-        setError('Failed to load your scores');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPlayerScores();
+    console.log('PlayerHistory: Offline mode - no data available');
+    setLoading(false);
+    setScores([]);
   }, [playerName]);
 
   const formatDate = (dateString) => {
@@ -84,7 +65,9 @@ export default function PlayerHistory({ playerName }) {
       
       {scores.length === 0 ? (
         <div className="text-center py-8 text-slate-400">
-          No games played yet as <span className="font-semibold text-blue-400">{playerName}</span>
+          <div className="mb-2">📊</div>
+          <div>Game history unavailable in offline mode</div>
+          <div className="text-xs text-slate-500 mt-2">Connect to backend for score tracking</div>
         </div>
       ) : (
         <div className="space-y-2 max-h-64 overflow-y-auto">

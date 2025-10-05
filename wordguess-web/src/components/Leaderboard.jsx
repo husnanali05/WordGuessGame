@@ -7,28 +7,11 @@ export default function Leaderboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch leaderboard from server
+  // Offline mode - no leaderboard data
   useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        console.log('Fetching leaderboard from:', `${API}/api/leaderboard?limit=20`);
-        setLoading(true);
-        setError("");
-        const response = await fetch(`${API}/api/leaderboard?limit=20`);
-        console.log('Leaderboard response status:', response.status);
-        if (!response.ok) throw new Error('Failed to fetch leaderboard');
-        const data = await response.json();
-        console.log('Leaderboard data received:', data);
-        setScores(data);
-      } catch (err) {
-        console.error('Leaderboard fetch error:', err);
-        setError(`Failed to load leaderboard: ${err.message}`);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchLeaderboard();
+    console.log('Leaderboard: Offline mode - no data available');
+    setLoading(false);
+    setScores([]);
   }, []);
 
   const formatDate = (dateString) => {
@@ -62,7 +45,11 @@ export default function Leaderboard() {
       <h3 className="font-silkscreen uppercase tracking-wider text-sm text-slate-300 mb-4">TOP SCORES</h3>
       
       {scores.length === 0 ? (
-        <div className="text-center py-8 text-slate-400">No scores yet!</div>
+        <div className="text-center py-8 text-slate-400">
+          <div className="mb-2">🏆</div>
+          <div>Leaderboard unavailable in offline mode</div>
+          <div className="text-xs text-slate-500 mt-2">Connect to backend for global scores</div>
+        </div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
