@@ -79,6 +79,13 @@ export default function App() {
       return;
     }
 
+    // Check if this is a fallback game (no API calls needed)
+    if (gameData.game_id && gameData.game_id.startsWith('fallback_')) {
+      console.log("🎹 Using fallback guess logic");
+      handleFallbackGuess(letter);
+      return;
+    }
+
     try {
       console.log("🎹 Making API call for guess:", letter);
       const response = await fetch(`${API_BASE}/api/guess`, {
@@ -106,6 +113,52 @@ export default function App() {
       }
     } catch (error) {
       console.error("🎹 Error making guess:", error);
+      console.log("🎹 Falling back to offline guess logic");
+      handleFallbackGuess(letter);
+    }
+  };
+
+  const handleFallbackGuess = (letter) => {
+    console.log("🎹 Processing fallback guess:", letter);
+    
+    if (!gameData || gameStatus !== "playing") {
+      return;
+    }
+
+    const word = gameData.answer || gameData.word;
+    const currentGuessed = [...guessedLetters];
+    
+    // Add letter to guessed if not already guessed
+    if (!currentGuessed.includes(letter)) {
+      currentGuessed.push(letter);
+      setGuessedLetters(currentGuessed);
+    }
+
+    // Check if letter is in the word
+    const isCorrect = word.includes(letter);
+    
+    if (!isCorrect) {
+      // Wrong guess - lose a life
+      const newLives = (gameData.lives || 6) - 1;
+      setGameData(prev => ({ ...prev, lives: newLives }));
+      
+      if (newLives <= 0) {
+        setGameStatus("lost");
+        setGameData(prev => ({ ...prev, status: "lost" }));
+      }
+    }
+
+    // Update masked word
+    const newMasked = word.split('').map(char => 
+      currentGuessed.includes(char) ? char : '_'
+    ).join(' ');
+    
+    setGameData(prev => ({ ...prev, masked: newMasked }));
+
+    // Check if word is complete
+    if (!newMasked.includes('_')) {
+      setGameStatus("won");
+      setGameData(prev => ({ ...prev, status: "won" }));
     }
   };
 
@@ -123,6 +176,13 @@ export default function App() {
 
     if (!gameData || !gameData.game_id) {
       console.log("💡 No game data or game ID");
+      return;
+    }
+
+    // Check if this is a fallback game (no API calls needed)
+    if (gameData.game_id && gameData.game_id.startsWith('fallback_')) {
+      console.log("💡 Using fallback hint logic");
+      handleFallbackHint();
       return;
     }
 
@@ -172,7 +232,45 @@ export default function App() {
       
     } catch (error) {
       console.error("💡 Error getting hint:", error);
-      // Silent error handling - just log to console
+      console.log("💡 Falling back to offline hint logic");
+      handleFallbackHint();
+    }
+  };
+
+  const handleFallbackHint = () => {
+    console.log("💡 Processing fallback hint");
+    
+    if (!gameData || hintsRemaining <= 0) {
+      return;
+    }
+
+    const word = gameData.answer || gameData.word;
+    const currentGuessed = [...guessedLetters];
+    
+    // Find an unrevealed letter
+    const unrevealedLetters = word.split('').filter(char => !currentGuessed.includes(char));
+    
+    if (unrevealedLetters.length > 0) {
+      // Pick a random unrevealed letter
+      const hintLetter = unrevealedLetters[Math.floor(Math.random() * unrevealedLetters.length)];
+      currentGuessed.push(hintLetter);
+      
+      // Update game state
+      setGuessedLetters(currentGuessed);
+      setHintsRemaining(prev => prev - 1);
+      
+      // Update masked word
+      const newMasked = word.split('').map(char => 
+        currentGuessed.includes(char) ? char : '_'
+      ).join(' ');
+      
+      setGameData(prev => ({ ...prev, masked: newMasked }));
+      
+      // Check if word is complete
+      if (!newMasked.includes('_')) {
+        setGameStatus("won");
+        setGameData(prev => ({ ...prev, status: "won" }));
+      }
     }
   };
 

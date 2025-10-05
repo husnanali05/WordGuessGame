@@ -11,7 +11,12 @@ except ImportError:
     print("python-dotenv not installed. Install with: pip install python-dotenv")
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:5173", "http://127.0.0.1:5173"])
+CORS(app, origins=[
+    "http://localhost:5173", 
+    "http://127.0.0.1:5173",
+    "https://spacewordsgame.netlify.app",
+    "https://wordsspaceguess.netlify.app"
+])
 
 # Initialize database and register leaderboard blueprint
 init_db(app)
