@@ -11,7 +11,7 @@ import heartImg from "/assets/hangman-states/heart.png";
 import trophyImg from "/assets/hangman-states/trophy.png";
 import hintImg from "/assets/hangman-states/hint.png";
 
-// import { API_BASE } from './config.js'; // Not needed in offline mode
+import { API_BASE } from './config.js';
 
 export default function App() {
   const [playerName, setPlayerName] = useState(() => {
@@ -326,14 +326,34 @@ export default function App() {
   };
 
   const submitScore = async (gameResult) => {
-    // Offline mode - no score submission
-    console.log("📊 Score tracking disabled in offline mode");
-    console.log("📊 Game result:", {
-        player: playerName,
-        won: gameResult.status === "won",
-        word: gameResult.answer || "",
-        level: currentLevel
-    });
+    try {
+      console.log("📊 Submitting score to API...");
+      const response = await fetch(`${API_BASE}/api/submit-score`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          player: playerName,
+          score: gameResult.score || 0,
+          level: currentLevel,
+          won: gameResult.status === "won",
+          word: gameResult.answer || gameResult.word || "",
+          mistakes: gameResult.mistakes || 0,
+          duration_ms: gameResult.duration_ms || 0,
+          topic: currentTopic
+        })
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to submit score: ${response.status} ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log("📊 Score submitted successfully:", data);
+    } catch (error) {
+      console.error("📊 Error submitting score:", error);
+      // Continue without throwing - score submission is not critical
+    }
   };
 
   // Simple screen routing

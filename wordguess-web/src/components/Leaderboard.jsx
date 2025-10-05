@@ -7,11 +7,25 @@ export default function Leaderboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Offline mode - no leaderboard data
+  // Fetch leaderboard data from API
   useEffect(() => {
-    console.log('Leaderboard: Offline mode - no data available');
-    setLoading(false);
-    setScores([]);
+    const fetchLeaderboard = async () => {
+      try {
+        console.log('Fetching leaderboard from:', `${API}/api/leaderboard?limit=20`);
+        setLoading(true);
+        setError("");
+        const response = await fetch(`${API}/api/leaderboard?limit=20`);
+        if (!response.ok) throw new Error('Failed to fetch leaderboard');
+        const data = await response.json();
+        setScores(data);
+      } catch (err) {
+        console.error('Leaderboard fetch error:', err);
+        setError(`Failed to load leaderboard: ${err.message}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLeaderboard();
   }, []);
 
   const formatDate = (dateString) => {
@@ -47,8 +61,8 @@ export default function Leaderboard() {
       {scores.length === 0 ? (
         <div className="text-center py-8 text-slate-400">
           <div className="mb-2">🏆</div>
-          <div>Leaderboard unavailable in offline mode</div>
-          <div className="text-xs text-slate-500 mt-2">Connect to backend for global scores</div>
+          <div>No leaderboard data available</div>
+          <div className="text-xs text-slate-500 mt-2">Be the first to play and set a high score!</div>
         </div>
       ) : (
         <div className="overflow-x-auto">

@@ -7,8 +7,8 @@ export const API_BASE = isDevelopment
   ? 'http://localhost:5001'  // Development backend
   : 'https://wordguess-api-production.up.railway.app';  // Production backend - UPDATE THIS URL
 
-// Force offline mode for now (until CORS is fixed)
-export const USE_FALLBACK_MODE = isProduction;
+// Enable API calls with fallback for errors
+export const USE_FALLBACK_MODE = false;
 
 // Export configuration
 export const config = {
