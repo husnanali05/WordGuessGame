@@ -379,74 +379,46 @@ export default function App() {
           setCurrentLevel(1);
           setLoading(true);
           
-          try {
-            console.log("🎯 Making API call to start game...");
-            const response = await fetch(`${API_BASE}/api/new-game`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ topic, level: 1 })
-            });
-            
-            console.log("🎯 API response status:", response.status);
-            
-            if (!response.ok) {
-              const errorText = await response.text();
-              console.error("🎯 API error response:", errorText);
-              throw new Error(`Failed to start game: ${response.status} ${errorText}`);
-            }
-            
-            const data = await response.json();
-            console.log("🎯 Game started successfully:", data);
-            console.log("🎯 Word length from API:", data.word_length);
-            console.log("🎯 Actual word length:", data.word?.length);
-                setGameData(data);
-                setGuessedLetters(data.guessed || []);
-                setGameStatus(data.status || "playing");
-                setHintsRemaining(3); // Reset hints for new game
-                setCurrentScreen("game");
-                console.log("🎯 Screen set to game");
-          } catch (error) {
-            console.error("🎯 Error starting game:", error);
-            console.log("🎯 Using fallback mode - backend not available");
-            
-            // Fallback: Create a game with predefined words if API fails
-            console.log("🎯 Creating fallback game...");
-            const fallbackWords = {
-              animals: ["CAT", "DOG", "BAT", "RAT", "COW", "PIG", "FOX", "BEE", "ANT", "OWL"],
-              food: ["PIE", "TEA", "HAM", "JAM", "BUN", "EGG", "OAT", "NUT", "FIG", "YAM"],
-              sports: ["RUN", "BOX", "SKI", "ROW", "JOG", "GYM", "WIN", "TIE", "BAT", "NET"],
-              technology: ["CPU", "RAM", "USB", "APP", "WEB", "NET"],
-              nature: ["SKY", "SUN", "SEA", "OAK", "DEW", "FOG", "MUD", "BAY", "DAM", "IVY"],
-              space: ["SUN", "ORB", "RAY", "SKY", "UFO", "ION", "GAS", "RED", "DIM", "HOT"],
-              music: ["RAP", "POP", "HIP", "JAZ", "DUO", "BAR", "KEY", "BOP", "HIT", "JAM"],
-              movies: ["ACT", "SET", "CUT", "DVD", "CGI", "VFX", "RUN", "HIT", "BIO", "WAR"],
-              science: ["DNA", "ION", "LAB", "RAY", "GAS", "ORE", "WAX", "OIL", "AIR", "ICE"],
-              travel: ["JET", "BUS", "CAR", "MAP", "BAG", "VAN", "SKY", "SEA", "BAY", "ZIP"]
-            };
-            
-            const topicWords = fallbackWords[topic] || fallbackWords.animals;
-            const selectedWord = topicWords[Math.floor(Math.random() * topicWords.length)];
-            const masked = selectedWord.split('').map(() => '_').join(' ');
-            
-            const fallbackGame = {
-              game_id: "fallback_" + Date.now(),
-              masked: masked,
-              lives: 6,
-              status: "playing",
-              guessed: [],
-              word_length: selectedWord.length,
-              answer: selectedWord,
-              word: selectedWord
-            };
-            setGameData(fallbackGame);
-            setGuessedLetters([]);
-            setGameStatus("playing");
-            setCurrentScreen("game");
-            console.log("🎯 Fallback game created");
-          } finally {
-            setLoading(false);
-            console.log("🎯 Loading set to false");
-          }
+          // Always use fallback mode in production for now
+          console.log("🎯 Using fallback mode - creating offline game");
+          
+          // Fallback: Create a game with predefined words
+          console.log("🎯 Creating fallback game...");
+          const fallbackWords = {
+            animals: ["CAT", "DOG", "BAT", "RAT", "COW", "PIG", "FOX", "BEE", "ANT", "OWL"],
+            food: ["PIE", "TEA", "HAM", "JAM", "BUN", "EGG", "OAT", "NUT", "FIG", "YAM"],
+            sports: ["RUN", "BOX", "SKI", "ROW", "JOG", "GYM", "WIN", "TIE", "BAT", "NET"],
+            technology: ["CPU", "RAM", "USB", "APP", "WEB", "NET"],
+            nature: ["SKY", "SUN", "SEA", "OAK", "DEW", "FOG", "MUD", "BAY", "DAM", "IVY"],
+            space: ["SUN", "ORB", "RAY", "SKY", "UFO", "ION", "GAS", "RED", "DIM", "HOT"],
+            music: ["RAP", "POP", "HIP", "JAZ", "DUO", "BAR", "KEY", "BOP", "HIT", "JAM"],
+            movies: ["ACT", "SET", "CUT", "DVD", "CGI", "VFX", "RUN", "HIT", "BIO", "WAR"],
+            science: ["DNA", "ION", "LAB", "RAY", "GAS", "ORE", "WAX", "OIL", "AIR", "ICE"],
+            travel: ["JET", "BUS", "CAR", "MAP", "BAG", "VAN", "SKY", "SEA", "BAY", "ZIP"]
+          };
+          
+          const topicWords = fallbackWords[topic] || fallbackWords.animals;
+          const selectedWord = topicWords[Math.floor(Math.random() * topicWords.length)];
+          const masked = selectedWord.split('').map(() => '_').join(' ');
+          
+          const fallbackGame = {
+            game_id: "fallback_" + Date.now(),
+            masked: masked,
+            lives: 6,
+            status: "playing",
+            guessed: [],
+            word_length: selectedWord.length,
+            answer: selectedWord,
+            word: selectedWord
+          };
+          setGameData(fallbackGame);
+          setGuessedLetters([]);
+          setGameStatus("playing");
+          setHintsRemaining(3); // Reset hints for new game
+          setCurrentScreen("game");
+          console.log("🎯 Fallback game created");
+          setLoading(false);
+          console.log("🎯 Loading set to false");
         }}
         playerName={playerName}
       />
