@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { API_BASE } from "../config.js";
 
-const API = import.meta.env.VITE_API_BASE || "http://127.0.0.1:5001";
+const API = API_BASE;
 
 export default function Leaderboard() {
   const [scores, setScores] = useState([]);
