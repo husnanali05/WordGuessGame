@@ -46,7 +46,7 @@ export default function TopicSelection({ onTopicSelect, playerName }) {
   };
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden text-white">
+    <div className="relative w-full min-h-screen overflow-hidden text-white">
       {/* Static sky background */}
       <div
         className="absolute inset-0"
@@ -65,16 +65,16 @@ export default function TopicSelection({ onTopicSelect, playerName }) {
       <ParallaxBand src={cloudNear} speed={70} direction="left" opacity={1} cover="cover" />
 
       {/* Content */}
-      <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-6">
+      <div className="relative z-20 flex flex-col items-center justify-start min-h-screen text-center px-4 py-8">
         {/* Title */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <h1 
-            className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 break-words"
             style={{
               fontFamily: 'Silkscreen, monospace',
               color: '#60A5FA',
               textShadow: '3px 3px 0px #1E40AF, 6px 6px 0px #1E3A8A',
-              letterSpacing: '0.1em'
+              letterSpacing: '0.05em'
             }}
           >
             CHOOSE YOUR TOPIC
@@ -91,20 +91,20 @@ export default function TopicSelection({ onTopicSelect, playerName }) {
         </div>
 
         {/* Topic Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8 max-w-4xl">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8 max-w-5xl w-full">
           {TOPICS.map((topic) => (
             <button
               key={topic.id}
               onClick={() => setSelectedTopic(topic.id)}
-              className={`p-4 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 ${
+              className={`p-2 sm:p-3 md:p-4 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 ${
                 selectedTopic === topic.id
                   ? 'border-yellow-400 bg-yellow-400/20 shadow-lg shadow-yellow-400/30'
                   : 'border-slate-600 bg-slate-800/60 hover:border-slate-500 hover:bg-slate-700/60'
               }`}
             >
-              <div className="text-3xl mb-2">{topic.emoji}</div>
-              <div className="font-semibold text-sm text-white mb-1">{topic.name}</div>
-              <div className="text-xs text-slate-400">{topic.description}</div>
+              <div className="text-2xl sm:text-3xl mb-1 sm:mb-2">{topic.emoji}</div>
+              <div className="font-semibold text-xs sm:text-sm text-white mb-1">{topic.name}</div>
+              <div className="text-xs text-slate-400 leading-tight">{topic.description}</div>
             </button>
           ))}
         </div>
@@ -136,12 +136,12 @@ export default function TopicSelection({ onTopicSelect, playerName }) {
         </div>
 
         {/* Game Rules */}
-        <div className="mt-8 max-w-2xl">
-          <div className="bg-slate-800/60 border border-slate-700 rounded-xl p-6">
-            <h3 className="font-semibold text-yellow-400 mb-3" style={{ fontFamily: 'Silkscreen, monospace' }}>
+        <div className="mt-6 sm:mt-8 max-w-2xl w-full px-4 pb-8">
+          <div className="bg-slate-800/60 border border-slate-700 rounded-xl p-4 sm:p-6">
+            <h3 className="font-semibold text-yellow-400 mb-3 text-center sm:text-left" style={{ fontFamily: 'Silkscreen, monospace' }}>
               HOW TO PLAY
             </h3>
-            <div className="text-sm text-slate-300 space-y-2 text-left">
+            <div className="text-xs sm:text-sm text-slate-300 space-y-1 sm:space-y-2 text-left">
               <div>• <strong>Level 1:</strong> Guess 3-letter words</div>
               <div>• <strong>Level 2:</strong> Guess 4-letter words</div>
               <div>• <strong>Level 3:</strong> Guess 5-letter words</div>
