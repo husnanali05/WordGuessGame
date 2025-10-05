@@ -1,0 +1,28 @@
+/* SpriteAnimator CSS - Reusable sprite animation styles */
+
+.sprite-animator {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Animation keyframes will be generated dynamically by the component */
+@keyframes sprite-animation {
+  0% { background-position: 0 0; }
+  100% { background-position: var(--sprite-total-width, -768px) 0; }
+}
+
+/* Utility classes for common sprite sizes */
+.sprite-16 { width: 16px; height: 16px; }
+.sprite-32 { width: 32px; height: 32px; }
+.sprite-64 { width: 64px; height: 64px; }
+.sprite-128 { width: 128px; height: 128px; }
+
+/* Common animation speeds */
+.sprite-slow { animation-duration: 3s; }
+.sprite-normal { animation-duration: 2s; }
+.sprite-fast { animation-duration: 1s; }
+.sprite-very-fast { animation-duration: 0.5s; }

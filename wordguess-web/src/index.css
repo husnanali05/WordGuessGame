@@ -1,0 +1,272 @@
+@import "tailwindcss";
+
+/* ---- Pixel parallax scrollers ---- */
+.parallax-layer {
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat-x;
+  background-position: 0 100%; /* start from bottom by default */
+  background-size: auto 100%;  /* keep pixel scale vertically */
+  image-rendering: pixelated;  /* keep it chunky */
+  pointer-events: none;
+}
+
+@keyframes scroll-left {
+  from { background-position-x: 0; }
+  to   { background-position-x: -2048px; } /* adjust based on your art width */
+}
+@keyframes scroll-right {
+  from { background-position-x: 0; }
+  to   { background-position-x: 2048px; }
+}
+
+/* Respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  .parallax-anim { animation: none !important; }
+}
+
+/* ---- Custom animations for the avatar ---- */
+@keyframes hc-shake {
+  0%, 100% { transform: translateX(0) }
+  20% { transform: translateX(-6px) }
+  40% { transform: translateX(6px) }
+  60% { transform: translateX(-4px) }
+  80% { transform: translateX(4px) }
+}
+@keyframes hc-pop {
+  0% { transform: scale(.9); opacity: 0 }
+  100% { transform: scale(1); opacity: 1 }
+}
+@keyframes hc-fade {
+  0% { opacity: .7 }
+  100% { opacity: 1 }
+}
+@keyframes fadeIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-shake { animation: hc-shake .35s ease-in-out both; }
+.animate-pop   { animation: hc-pop   .28s ease-out   both; }
+.animate-fade  { animation: hc-fade  .35s ease-in     both; }
+.animate-fadeIn { animation: fadeIn 1.5s ease-out both; }
+
+/* Idle animations */
+@keyframes eye-blink {
+  0%, 90%, 100% { opacity: 1; }
+  95% { opacity: 0.3; }
+}
+
+@keyframes eye-look-left {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-8px); }
+}
+
+@keyframes eye-look-right {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(8px); }
+}
+
+.animate-eye-closed { animation: eye-blink 2s ease-in-out; }
+.animate-eye-left { animation: eye-look-left 2s ease-in-out; }
+.animate-eye-right { animation: eye-look-right 2s ease-in-out; }
+
+/* Pixel-art canvas styles */
+.pixel-canvas {
+  width: 200px;
+  height: 200px;
+  display: block;
+  image-rendering: pixelated;
+  object-fit: contain;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.pixel-wrap {
+  /* lets the canvas be any size and we can center within a card */
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: visible;
+}
+
+/* tape-based parallax keyframes (if you use <ParallaxBand>) */
+@keyframes scrollLeft   { from { transform: translateX(0);    } to { transform: translateX(-50%); } }
+@keyframes scrollRight  { from { transform: translateX(-50%); } to { transform: translateX(0);    } }
+
+/* Pixel-art title animations */
+@keyframes pixelGlow {
+  0% { 
+    color: #ffffff;
+    text-shadow: 2px 2px 0px #000, 4px 4px 0px #333, 0 0 10px #00ffff;
+  }
+  100% { 
+    color: #00ffff;
+    text-shadow: 2px 2px 0px #000, 4px 4px 0px #333, 0 0 20px #00ffff, 0 0 30px #0088ff;
+  }
+}
+
+@keyframes pixelFloat {
+  0%, 100% { 
+    transform: translateY(0px) scale(1);
+  }
+  50% { 
+    transform: translateY(-3px) scale(1.02);
+  }
+}
+
+@keyframes pixelShake {
+  0%, 100% { transform: translateX(0); }
+  10% { transform: translateX(-1px); }
+  20% { transform: translateX(1px); }
+  30% { transform: translateX(-1px); }
+  40% { transform: translateX(1px); }
+  50% { transform: translateX(-1px); }
+  60% { transform: translateX(1px); }
+  70% { transform: translateX(-1px); }
+  80% { transform: translateX(1px); }
+  90% { transform: translateX(-1px); }
+}
+
+.pixel-title {
+  position: relative;
+  display: inline-block;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  font-smoothing: none;
+}
+
+.pixel-title::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 255, 0.1) 50%, transparent 70%);
+  animation: pixelShine 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes pixelShine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Collapsible sections */
+.collapsible-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.collapsible-content.open {
+  max-height: 1000px;
+}
+
+.collapsible-button {
+  transition: all 0.2s ease;
+}
+
+.collapsible-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Scrollable leaderboard */
+.leaderboard-scroll {
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #4a5568 #2d3748;
+}
+
+.leaderboard-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.leaderboard-scroll::-webkit-scrollbar-track {
+  background: #2d3748;
+  border-radius: 3px;
+}
+
+.leaderboard-scroll::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 3px;
+}
+
+.leaderboard-scroll::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+}
+
+/* Popup animations */
+.leaderboard-popup {
+  animation: popupFadeIn 0.3s ease-out;
+}
+
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.trophy-button {
+  transition: all 0.2s ease;
+}
+
+.trophy-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+/* ---- Local Silkscreen font faces (public/fonts) ---- */
+@font-face {
+  font-family: 'Silkscreen';
+  src: url('/fonts/Silkscreen-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Silkscreen';
+  src: url('/fonts/Silkscreen-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Reusable utility class for headings that should use Silkscreen */
+.font-silkscreen {
+  font-family: 'Silkscreen', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400; /* looks better bold for titles */
+}
+
+/* Custom title animations */
+@keyframes titleGlow {
+  0% {
+    text-shadow: 2px 2px 0px #1E40AF, 4px 4px 0px #1E3A8A, 6px 6px 0px #1E3A8A;
+    color: #60A5FA;
+  }
+  100% {
+    text-shadow: 2px 2px 0px #1E40AF, 4px 4px 0px #1E3A8A, 6px 6px 0px #1E3A8A, 0 0 20px #60A5FA, 0 0 40px #3B82F6;
+    color: #93C5FD;
+  }
+}
+
+@keyframes titleFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}

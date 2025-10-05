@@ -1,0 +1,19 @@
+{
+  "name": "words-guess-game",
+  "version": "1.0.0",
+  "description": "Words Guess Game with persistent leaderboard",
+  "scripts": {
+    "dev": "concurrently \"npm run kill-flask && npm run backend\" \"npm run frontend\"",
+    "kill-flask": "pkill -f 'python3 app.py' || true",
+    "backend": "cd wordguess-api && python3 app.py",
+    "frontend": "cd wordguess-web && npm run dev",
+    "install-all": "cd wordguess-web && npm install",
+    "setup": "npm run install-all"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": ["game", "hangman", "leaderboard", "react", "flask"],
+  "author": "Your Name",
+  "license": "MIT"
+}
