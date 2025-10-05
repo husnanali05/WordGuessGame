@@ -11,7 +11,7 @@ import heartImg from "/assets/hangman-states/heart.png";
 import trophyImg from "/assets/hangman-states/trophy.png";
 import hintImg from "/assets/hangman-states/hint.png";
 
-import { API_BASE } from './config.js';
+// import { API_BASE } from './config.js'; // Not needed in offline mode
 
 export default function App() {
   const [playerName, setPlayerName] = useState(() => {
@@ -86,36 +86,9 @@ export default function App() {
       return;
     }
 
-    try {
-      console.log("🎹 Making API call for guess:", letter);
-      const response = await fetch(`${API_BASE}/api/guess`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          game_id: gameData.game_id,
-          letter: letter
-        })
-      });
-
-      if (!response.ok) throw new Error('Failed to make guess');
-
-      const data = await response.json();
-      console.log("🎹 Guess result:", data);
-      console.log("🎹 Word length after guess:", data.word_length);
-      console.log("🎹 Actual word length:", data.word?.length);
-      setGameData(data);
-      setGuessedLetters(data.guessed || []);
-      setGameStatus(data.status || "playing");
-
-      if (data.status === "won" || data.status === "lost") {
-        // Game over - submit score
-        await submitScore(data);
-      }
-    } catch (error) {
-      console.error("🎹 Error making guess:", error);
-      console.log("🎹 Falling back to offline guess logic");
-      handleFallbackGuess(letter);
-    }
+    // Always use offline logic
+    console.log("🎹 Using offline guess logic");
+    handleFallbackGuess(letter);
   };
 
   const handleFallbackGuess = (letter) => {
@@ -186,55 +159,9 @@ export default function App() {
       return;
     }
 
-    try {
-      console.log("💡 Making API call for hint...");
-      const response = await fetch(`${API_BASE}/api/hint`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          game_id: gameData.game_id
-        })
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to get hint: ${response.status} ${errorText}`);
-      }
-
-      const data = await response.json();
-      console.log("💡 Hint response:", data);
-      
-      // Update game state with hint response
-      setGameData(prev => ({
-        ...prev,
-        masked: data.masked,
-        guessed: data.guessed,
-        lives: data.lives,
-        status: data.status
-      }));
-      
-      setGuessedLetters(data.guessed || []);
-      setHintsRemaining(prev => prev - 1);
-      
-      // Check if the word is now complete (all letters revealed)
-      const isWordComplete = !data.masked.includes('_');
-      if (isWordComplete) {
-        console.log("💡 Word completed with hint!");
-        setGameStatus("won");
-        // Submit score for winning with hint
-        await submitScore({
-          ...gameData,
-          status: "won",
-          masked: data.masked,
-          guessed: data.guessed
-        });
-      }
-      
-    } catch (error) {
-      console.error("💡 Error getting hint:", error);
-      console.log("💡 Falling back to offline hint logic");
-      handleFallbackHint();
-    }
+    // Always use offline logic
+    console.log("💡 Using offline hint logic");
+    handleFallbackHint();
   };
 
   const handleFallbackHint = () => {
@@ -286,87 +213,60 @@ export default function App() {
       return;
     }
     
-    try {
-      setLoading(true);
-      console.log("🚀 Making API call to next-level...");
-      console.log("🚀 API_BASE:", API_BASE);
-      console.log("🚀 Game ID:", gameData.game_id);
-      
-      const response = await fetch(`${API_BASE}/api/next-level`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          game_id: gameData.game_id
-        })
-      });
-      
-      console.log("🚀 API response status:", response.status);
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("🚀 API error response:", errorText);
-        throw new Error(`Failed to advance level: ${response.status} ${errorText}`);
-      }
-      
-      const data = await response.json();
-      console.log("🚀 Next level response:", data);
-      
-      console.log("🚀 Updating state with new data...");
-      console.log("🚀 New game data from API:", data);
-      setGameData(data);
-      setGuessedLetters(data.guessed || []);
-      setGameStatus(data.status || "playing");
-      setHintsRemaining(3); // Reset hints for new level
-      const newLevel = currentLevel + 1;
-      console.log("🚀 Setting new level:", newLevel);
-      setCurrentLevel(newLevel);
-      console.log("🚀 Setting screen to game");
-      setCurrentScreen("game");
-      
-      console.log("🚀 Level advanced successfully to:", newLevel);
-      console.log("🚀 Updated game state:", {
-        gameData: data,
-        currentLevel: newLevel,
-        gameStatus: data.status || "playing"
-      });
-      // Level advanced successfully - no alert needed
-    } catch (error) {
-      console.error("🚀 Error advancing level:", error);
-      // Silent error handling - just log to console
-    } finally {
-      setLoading(false);
-      console.log("🚀 Loading set to false");
-    }
+    // Always use offline logic for next level
+    console.log("🚀 Using offline next level logic");
+    setLoading(true);
+    
+    // Create new fallback game for next level
+    const fallbackWords = {
+      animals: ["CAT", "DOG", "BAT", "RAT", "COW", "PIG", "FOX", "BEE", "ANT", "OWL"],
+      food: ["PIE", "TEA", "HAM", "JAM", "BUN", "EGG", "OAT", "NUT", "FIG", "YAM"],
+      sports: ["RUN", "BOX", "SKI", "ROW", "JOG", "GYM", "WIN", "TIE", "BAT", "NET"],
+      technology: ["CPU", "RAM", "USB", "APP", "WEB", "NET"],
+      nature: ["SKY", "SUN", "SEA", "OAK", "DEW", "FOG", "MUD", "BAY", "DAM", "IVY"],
+      space: ["SUN", "ORB", "RAY", "SKY", "UFO", "ION", "GAS", "RED", "DIM", "HOT"],
+      music: ["RAP", "POP", "HIP", "JAZ", "DUO", "BAR", "KEY", "BOP", "HIT", "JAM"],
+      movies: ["ACT", "SET", "CUT", "DVD", "CGI", "VFX", "RUN", "HIT", "BIO", "WAR"],
+      science: ["DNA", "ION", "LAB", "RAY", "GAS", "ORE", "WAX", "OIL", "AIR", "ICE"],
+      travel: ["JET", "BUS", "CAR", "MAP", "BAG", "VAN", "SKY", "SEA", "BAY", "ZIP"]
+    };
+    
+    const topicWords = fallbackWords[currentTopic] || fallbackWords.animals;
+    const selectedWord = topicWords[Math.floor(Math.random() * topicWords.length)];
+    const masked = selectedWord.split('').map(() => '_').join(' ');
+    
+    const newLevel = currentLevel + 1;
+    const fallbackGame = {
+      game_id: "fallback_" + Date.now(),
+      masked: masked,
+      lives: 6,
+      status: "playing",
+      guessed: [],
+      word_length: selectedWord.length,
+      answer: selectedWord,
+      word: selectedWord
+    };
+    
+    setGameData(fallbackGame);
+    setGuessedLetters([]);
+    setGameStatus("playing");
+    setHintsRemaining(3);
+    setCurrentLevel(newLevel);
+    setCurrentScreen("game");
+    setLoading(false);
+    
+    console.log("🚀 Offline next level created:", newLevel);
   };
 
   const submitScore = async (gameResult) => {
-    if (!gameResult || !playerName) return;
-    
-    try {
-      const scoreData = {
-        player: playerName,
-        won: gameResult.status === "won",
-        word: gameResult.answer || "",
-        word_length: gameResult.word_length || 0,
-        mistakes: 6 - (gameResult.lives || 0),
-        correct: gameResult.guessed?.length || 0,
-        accuracy: gameResult.guessed?.length ? (gameResult.guessed.filter(l => gameResult.answer?.includes(l)).length / gameResult.guessed.length) * 100 : 0,
-        duration_ms: Date.now() - (gameData?.startTime || Date.now()),
-        level: currentLevel
-      };
-      
-      const response = await fetch(`${API_BASE}/api/score`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(scoreData)
-      });
-      
-      if (response.ok) {
-        console.log("Score submitted successfully");
-      }
-    } catch (error) {
-      console.error("Error submitting score:", error);
-    }
+    // Offline mode - no score submission
+    console.log("📊 Score tracking disabled in offline mode");
+    console.log("📊 Game result:", {
+      player: playerName,
+      won: gameResult.status === "won",
+      word: gameResult.answer || "",
+      level: currentLevel
+    });
   };
 
   // Simple screen routing
