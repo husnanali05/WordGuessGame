@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { API_BASE } from "../config.js";
+import { API_BASE, USE_FALLBACK_MODE } from "../config.js";
 
 const API = API_BASE;
 
@@ -8,12 +8,21 @@ export default function PlayerHistory({ playerName }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Fetch player scores from API
+  // Fetch player scores from API or show fallback
   useEffect(() => {
     if (!playerName || playerName === "guest") {
       setScores([]);
       return;
     }
+
+    if (USE_FALLBACK_MODE) {
+      console.log('PlayerHistory: Using fallback mode - backend not available');
+      setLoading(false);
+      setScores([]);
+      setError("");
+      return;
+    }
+
     const fetchPlayerScores = async () => {
       try {
         setLoading(true);
@@ -87,8 +96,8 @@ export default function PlayerHistory({ playerName }) {
       {scores.length === 0 ? (
         <div className="text-center py-8 text-slate-400">
           <div className="mb-2">📊</div>
-          <div>Game history temporarily unavailable</div>
-          <div className="text-xs text-slate-500 mt-2">Backend server is being updated. Check back soon!</div>
+          <div>Game history coming soon!</div>
+          <div className="text-xs text-slate-500 mt-2">Backend is being set up. Your scores will be tracked soon!</div>
         </div>
       ) : (
         <div className="space-y-2 max-h-64 overflow-y-auto">

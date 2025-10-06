@@ -9,8 +9,8 @@ console.log('API_BASE configured for:', 'https://wordguess-api-production.up.rai
 // API Base URL configuration - Force production URL for now
 export const API_BASE = 'https://wordguess-api-production.up.railway.app';
 
-// Enable API calls with fallback for errors
-export const USE_FALLBACK_MODE = false;
+// Temporarily disable API calls until backend is properly deployed
+export const USE_FALLBACK_MODE = true;
 
 // Export configuration
 export const config = {

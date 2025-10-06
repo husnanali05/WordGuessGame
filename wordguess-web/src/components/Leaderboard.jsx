@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { API_BASE } from "../config.js";
+import { API_BASE, USE_FALLBACK_MODE } from "../config.js";
 
 const API = API_BASE;
 
@@ -8,8 +8,16 @@ export default function Leaderboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch leaderboard data from API
+  // Fetch leaderboard data from API or show fallback
   useEffect(() => {
+    if (USE_FALLBACK_MODE) {
+      console.log('Leaderboard: Using fallback mode - backend not available');
+      setLoading(false);
+      setScores([]);
+      setError("");
+      return;
+    }
+
     const fetchLeaderboard = async () => {
       try {
         console.log('Fetching leaderboard from:', `${API}/api/leaderboard?limit=20`);
@@ -65,8 +73,8 @@ export default function Leaderboard() {
       {scores.length === 0 ? (
         <div className="text-center py-8 text-slate-400">
           <div className="mb-2">🏆</div>
-          <div>Leaderboard temporarily unavailable</div>
-          <div className="text-xs text-slate-500 mt-2">Backend server is being updated. Check back soon!</div>
+          <div>Leaderboard coming soon!</div>
+          <div className="text-xs text-slate-500 mt-2">Backend is being set up. Global scores will be available soon!</div>
         </div>
       ) : (
         <div className="overflow-x-auto">
