@@ -118,6 +118,17 @@ export default function App() {
       if (newLives <= 0) {
         setGameStatus("lost");
         setGameData(prev => ({ ...prev, status: "lost" }));
+        
+        // Submit score when game is lost
+        const gameResult = {
+          status: "lost",
+          score: 0,
+          answer: word,
+          word: word,
+          mistakes: 6,
+          duration_ms: Date.now() - (gameData.startTime || Date.now())
+        };
+        submitScore(gameResult);
       }
     }
 
@@ -132,6 +143,17 @@ export default function App() {
     if (!newMasked.includes('_')) {
       setGameStatus("won");
       setGameData(prev => ({ ...prev, status: "won" }));
+      
+      // Submit score when game is won
+      const gameResult = {
+        status: "won",
+        score: currentLevel * 100, // Score based on level
+        answer: word,
+        word: word,
+        mistakes: 6 - (gameData.lives || 6),
+        duration_ms: Date.now() - (gameData.startTime || Date.now())
+      };
+      submitScore(gameResult);
     }
   };
 
@@ -307,7 +329,8 @@ export default function App() {
       guessed: [],
       word_length: selectedWord.length,
       answer: selectedWord,
-      word: selectedWord
+      word: selectedWord,
+      startTime: Date.now()
     };
     
     console.log("🚀 Creating new game:", fallbackGame);
@@ -470,7 +493,8 @@ export default function App() {
               guessed: [],
             word_length: selectedWord.length,
             answer: selectedWord,
-            word: selectedWord
+            word: selectedWord,
+            startTime: Date.now()
             };
             setGameData(fallbackGame);
             setGuessedLetters([]);
