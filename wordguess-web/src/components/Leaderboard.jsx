@@ -16,11 +16,15 @@ export default function Leaderboard() {
       if (USE_LOCAL_STORAGE) {
         // Load scores from local storage
         const localScores = JSON.parse(localStorage.getItem('wordguess_scores') || '[]');
+        console.log('Raw local storage data:', localScores);
+        console.log('Number of scores found:', localScores.length);
+        
         const sortedScores = localScores
           .sort((a, b) => b.score - a.score)
           .slice(0, 20); // Top 20 scores
         setScores(sortedScores);
         console.log('Loaded', sortedScores.length, 'scores from local storage');
+        console.log('Sorted scores:', sortedScores);
       } else {
         setScores([]);
       }
@@ -78,9 +82,65 @@ export default function Leaderboard() {
     );
   }
 
+  // Debug function to add test score
+  const addTestScore = () => {
+    const testScore = {
+      id: Date.now().toString(),
+      player: "Test Player",
+      score: 500,
+      level: 5,
+      won: true,
+      word: "TEST",
+      mistakes: 2,
+      duration_ms: 30000,
+      topic: "animals",
+      created_at: new Date().toISOString()
+    };
+    
+    const existingScores = JSON.parse(localStorage.getItem('wordguess_scores') || '[]');
+    existingScores.push(testScore);
+    localStorage.setItem('wordguess_scores', JSON.stringify(existingScores));
+    
+    // Reload scores
+    const localScores = JSON.parse(localStorage.getItem('wordguess_scores') || '[]');
+    const sortedScores = localScores
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 20);
+    setScores(sortedScores);
+    console.log('Test score added and leaderboard updated');
+  };
+
+  // Debug function to refresh scores
+  const refreshScores = () => {
+    console.log('Refreshing scores...');
+    const localScores = JSON.parse(localStorage.getItem('wordguess_scores') || '[]');
+    console.log('Found scores:', localScores);
+    const sortedScores = localScores
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 20);
+    setScores(sortedScores);
+    console.log('Scores refreshed:', sortedScores);
+  };
+
   return (
     <div className="bg-slate-800/60 border border-slate-700 rounded-xl p-4 shadow-[6px_6px_0_#000] min-h-[300px]">
-      <h3 className="font-silkscreen uppercase tracking-wider text-sm text-slate-300 mb-4">TOP SCORES</h3>
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="font-silkscreen uppercase tracking-wider text-sm text-slate-300">TOP SCORES</h3>
+        <div className="flex gap-2">
+          <button 
+            onClick={addTestScore}
+            className="px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700"
+          >
+            Add Test
+          </button>
+          <button 
+            onClick={refreshScores}
+            className="px-2 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700"
+          >
+            Refresh
+          </button>
+        </div>
+      </div>
       
       {scores.length === 0 ? (
         <div className="text-center py-8 text-slate-400">
