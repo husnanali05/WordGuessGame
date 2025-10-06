@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { API_BASE, USE_FALLBACK_MODE } from "../config.js";
+import { API_BASE, USE_FALLBACK_MODE, USE_LOCAL_STORAGE } from "../config.js";
 
 const API = API_BASE;
 
@@ -17,8 +17,21 @@ export default function PlayerHistory({ playerName }) {
 
     if (USE_FALLBACK_MODE) {
       console.log('PlayerHistory: Using fallback mode - backend not available');
+      
+      if (USE_LOCAL_STORAGE && playerName && playerName !== "guest") {
+        // Load player scores from local storage
+        const localScores = JSON.parse(localStorage.getItem('wordguess_scores') || '[]');
+        const playerScores = localScores
+          .filter(score => score.player === playerName)
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          .slice(0, 50); // Last 50 games
+        setScores(playerScores);
+        console.log('Loaded', playerScores.length, 'scores for player', playerName);
+      } else {
+        setScores([]);
+      }
+      
       setLoading(false);
-      setScores([]);
       setError("");
       return;
     }
@@ -96,8 +109,8 @@ export default function PlayerHistory({ playerName }) {
       {scores.length === 0 ? (
         <div className="text-center py-8 text-slate-400">
           <div className="mb-2">📊</div>
-          <div>Game history coming soon!</div>
-          <div className="text-xs text-slate-500 mt-2">Backend is being set up. Your scores will be tracked soon!</div>
+          <div>No game history yet!</div>
+          <div className="text-xs text-slate-500 mt-2">Play some games to see your history here!</div>
         </div>
       ) : (
         <div className="space-y-2 max-h-64 overflow-y-auto">

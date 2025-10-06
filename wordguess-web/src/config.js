@@ -2,8 +2,9 @@
 const isDevelopment = import.meta.env.DEV;
 const isProduction = import.meta.env.PROD;
 
-// Temporarily disable API calls until backend is properly deployed
+// Use local storage for scores until backend is ready
 export const USE_FALLBACK_MODE = true;
+export const USE_LOCAL_STORAGE = true;
 
 // API Base URL configuration - Force production URL for now
 export const API_BASE = 'https://wordguess-api-production.up.railway.app';

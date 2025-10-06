@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { API_BASE, USE_FALLBACK_MODE } from "../config.js";
+import { API_BASE, USE_FALLBACK_MODE, USE_LOCAL_STORAGE } from "../config.js";
 
 const API = API_BASE;
 
@@ -8,12 +8,24 @@ export default function Leaderboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch leaderboard data from API or show fallback
+  // Fetch leaderboard data from API or local storage
   useEffect(() => {
     if (USE_FALLBACK_MODE) {
       console.log('Leaderboard: Using fallback mode - backend not available');
+      
+      if (USE_LOCAL_STORAGE) {
+        // Load scores from local storage
+        const localScores = JSON.parse(localStorage.getItem('wordguess_scores') || '[]');
+        const sortedScores = localScores
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 20); // Top 20 scores
+        setScores(sortedScores);
+        console.log('Loaded', sortedScores.length, 'scores from local storage');
+      } else {
+        setScores([]);
+      }
+      
       setLoading(false);
-      setScores([]);
       setError("");
       return;
     }
@@ -73,8 +85,8 @@ export default function Leaderboard() {
       {scores.length === 0 ? (
         <div className="text-center py-8 text-slate-400">
           <div className="mb-2">🏆</div>
-          <div>Leaderboard coming soon!</div>
-          <div className="text-xs text-slate-500 mt-2">Backend is being set up. Global scores will be available soon!</div>
+          <div>No scores yet!</div>
+          <div className="text-xs text-slate-500 mt-2">Play some games to see your scores here!</div>
         </div>
       ) : (
         <div className="overflow-x-auto">

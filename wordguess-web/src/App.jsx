@@ -11,7 +11,7 @@ import heartImg from "/assets/hangman-states/heart.png";
 import trophyImg from "/assets/hangman-states/trophy.png";
 import hintImg from "/assets/hangman-states/hint.png";
 
-import { API_BASE } from './config.js';
+import { API_BASE, USE_LOCAL_STORAGE } from './config.js';
 
 export default function App() {
   const [playerName, setPlayerName] = useState(() => {
@@ -289,7 +289,7 @@ export default function App() {
     console.log("🚀 Current topic:", currentTopic);
     
     // Get words for current topic and level
-    const newLevel = currentLevel + 1;
+      const newLevel = currentLevel + 1;
     const topicWords = fallbackWords[currentTopic] || fallbackWords.animals;
     const wordLength = Math.min(3 + newLevel - 1, 6); // Progressive: 3, 4, 5, 6 letters
     const wordsForLength = topicWords[wordLength] || topicWords[3];
@@ -327,6 +327,28 @@ export default function App() {
 
   const submitScore = async (gameResult) => {
     try {
+      if (USE_LOCAL_STORAGE) {
+        // Save to local storage
+      const scoreData = {
+          id: Date.now().toString(),
+        player: playerName,
+          score: gameResult.score || 0,
+          level: currentLevel,
+        won: gameResult.status === "won",
+          word: gameResult.answer || gameResult.word || "",
+          mistakes: gameResult.mistakes || 0,
+          duration_ms: gameResult.duration_ms || 0,
+          topic: currentTopic,
+          created_at: new Date().toISOString()
+        };
+        
+        const existingScores = JSON.parse(localStorage.getItem('wordguess_scores') || '[]');
+        existingScores.push(scoreData);
+        localStorage.setItem('wordguess_scores', JSON.stringify(existingScores));
+        console.log("📊 Score saved to local storage:", scoreData);
+        return;
+      }
+
       console.log("📊 Submitting score to API...");
       const response = await fetch(`${API_BASE}/api/submit-score`, {
         method: 'POST',
